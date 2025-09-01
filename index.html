@@ -1,103 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SQR - Sur Quatre Roues</title>
-  <meta name="description" content="SQR - Sur Quatre Roues, spécialiste de la revente de véhicules d'occasion de qualité." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - SQR</title>
   <link rel="icon" type="image/jpeg" href="logo-sqr.jpg">
   <style>
-    :root{
-      --bg:#0b0f1a;
-      --bg-soft:#12182a;
-      --text:#e9eefc;
-      --muted:#a9b4d0;
-      --brand:#1a5cb5;
-      --accent:#66e5d0;
-      --radius:20px;
-      --shadow:0 10px 30px rgba(0,0,0,.25);
-    }
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:inherit}
-    .container{max-width:1100px;margin:0 auto;padding:0 20px}
-    header{background:var(--bg-soft);padding:10px 0;box-shadow:var(--shadow)}
-    .nav{display:flex;justify-content:space-between;align-items:center}
-    .brand img{height:42px;width:auto;vertical-align:middle;margin-right:8px}
-    .brand{display:flex;align-items:center;font-weight:bold;font-size:1.1em}
-    .menu{display:flex;gap:20px}
-    .btn{background:var(--brand);color:#fff;padding:10px 16px;border-radius:var(--radius)}
-    .hero{padding:50px 0;display:flex;flex-direction:column;gap:20px;align-items:flex-start;text-align:left}
-    .pill{background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:999px}
-    section{padding:50px 0}
-    h2{margin-bottom:10px}
-    .section-sub{color:var(--muted);margin-bottom:30px}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .card{background:var(--bg-soft);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column}
-    .card img{border-radius:var(--radius);margin-bottom:10px;object-fit:cover;aspect-ratio:16/9}
-    .price{color:var(--accent);font-weight:bold;font-size:1.2em;margin:8px 0}
-    footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0b0f1a;color:#e9eefc;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+    .form-container{background:#12182a;padding:20px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:400px;width:100%}
+    h1{text-align:center;margin-bottom:20px}
+    label{display:block;margin-top:10px;font-weight:bold}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#0f1424;color:#fff;margin-top:4px}
+    button{margin-top:15px;width:100%;padding:12px;border:none;border-radius:999px;background:#1a5cb5;color:#fff;font-weight:bold;font-size:16px;cursor:pointer}
+    button:hover{background:#154a91}
+    .success-message{display:none;margin-top:15px;padding:10px;border-radius:8px;background:#1a5cb5;color:#fff;text-align:center}
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <a href="#" class="brand"><img src="logo-sqr.jpg" alt="Logo SQR - Sur Quatre Roues"> Sur Quatre Roues</a>
-      <nav class="menu">
-        <a href="#services">Nos services</a>
-        <a href="#catalogue">Nos véhicules</a>
-        <a href="#contact">Contact</a>
-        <a class="btn" href="#contact">Demander un devis</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <section class="hero container">
-      <span class="kicker">Vente de véhicules d'occasion</span>
-      <h1>Trouvez votre prochaine voiture avec SQR</h1>
-      <p class="lead">Sur Quatre Roues sélectionne pour vous des véhicules d'occasion fiables, révisés et prêts à prendre la route.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn" href="#catalogue">Voir nos offres</a>
-        <a class="pill" href="#contact">💬 Nous contacter</a>
-      </div>
-    </section>
+  <div class="form-container">
+    <h1>Contactez-nous</h1>
+    <form id="contactForm" action="https://formsubmit.co/contact@sqr-auto.fr" method="POST">
+      <!-- Protection / options Formsubmit -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" id="_next" value="">
+      <input type="hidden" name="_subject" value="Nouveau message – SQR">
+      <input type="hidden" name="_template" value="table">
 
-    <section id="catalogue">
-      <div class="container">
-        <h2>Nos véhicules disponibles</h2>
-        <p class="section-sub">Découvrez notre sélection du moment</p>
-        <div class="gallery">
-          <div class="card">
-            <img src="208_ALLURE.avif" alt="Peugeot 208">
-            <h3>Peugeot 208</h3>
-            <p class="price">9 500 €</p>
-            <p>Année 2018 • 65 000 km • Essence</p>
-            <a class="btn" href="#contact">En savoir plus</a>
-          </div>
-          <div class="card">
-            <img src="renault_24cliohevtechnohb5rb_angularfront.webp" alt="Renault Clio">
-            <h3>Renault Clio</h3>
-            <p class="price">8 900 €</p>
-            <p>Année 2017 • 72 000 km • Diesel</p>
-            <a class="btn" href="#contact">En savoir plus</a>
-          </div>
-          <div class="card">
-            <img src="config-golf-gti-clubsport.png" alt="Volkswagen Golf GTI">
-            <h3>Volkswagen Golf GTI</h3>
-            <p class="price">12 500 €</p>
-            <p>Année 2019 • 55 000 km • Essence</p>
-            <a class="btn" href="#contact">En savoir plus</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <div class="container">
-      © <span id="year"></span> SQR - Sur Quatre Roues. Tous droits réservés.
-    </div>
-  </footer>
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="Nom" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="Email" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="Message" rows="5" required></textarea>
+
+      <button type="submit">Envoyer</button>
+    </form>
+    <div class="success-message" id="successMessage">✅ Merci, votre message a bien été envoyé.</div>
+  </div>
+
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Afficher le bandeau de succès si on revient avec ?success=true
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('success') === 'true'){
+      document.getElementById('successMessage').style.display = 'block';
+    }
+    // Définir dynamiquement l'URL de redirection complète (fonctionne en local, GitHub Pages, Netlify…)
+    const next = location.origin + location.pathname.replace(/[^/]+$/, '') + 'contact.html?success=true';
+    document.getElementById('_next').value = next;
   </script>
 </body>
 </html>
