@@ -31,9 +31,15 @@
     h1,h2{margin-bottom:15px}
     .contact-info{background:var(--bg-soft);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow)}
     .contact-info p{margin:8px 0;color:var(--muted)}
+    .actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    .google-review-btn{
+      display:inline-block;background:#ffd54f;color:#111;
+      padding:12px 16px;border-radius:999px;font-weight:700;
+      box-shadow:var(--shadow);
+    }
+    .google-review-btn:hover{filter:brightness(0.95)}
     iframe{border-radius:var(--radius);border:none;width:100%;height:300px;margin-top:20px}
     footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
-    /* Bouton retour accueil fixe en bas */
     .back-home{
       position:fixed;left:50%;transform:translateX(-50%);
       bottom:16px;z-index:99;background:var(--brand);color:#fff;
@@ -59,12 +65,17 @@
       <h1>Contactez-nous</h1>
       <div class="contact-info">
         <h2>Coordonnées</h2>
-        <p><strong>Adresse :</strong> 123 Rue des Automobiles, 75000 Paris, France</p>
-        <p><strong>Téléphone :</strong> <a href="tel:+33123456789">01 23 45 67 89</a></p>
-        <p><strong>Email :</strong> <a href="mailto:contact@sqr-auto.fr">contact@sqr-auto.fr</a></p>
+        <p><strong>Entreprise :</strong> Sur Quatre Roues</p>
+        <p><strong>Activité :</strong> Concessionnaire de véhicules de loisirs</p>
+        <p><strong>Adresse :</strong> 821 Rte de Pertuis, 84240 La Bastide-des-Jourdans</p>
+        <p><strong>Téléphone :</strong> <a href="tel:+33624715825">06 24 71 58 25</a></p>
+        <p><strong>Email :</strong> <a href="mailto:sqr@gmail.com">sqr@gmail.com</a></p>
         <p><strong>Horaires :</strong> Lundi - Samedi : 9h00 - 18h00</p>
+        <div class="actions">
+          <a class="google-review-btn" href="https://www.google.com/search?sa=X&sca_esv=7ebae87ec67bf7ae&tbm=lcl&sxsrf=AE3TifOjeN0Jza0qbtDFCFflpxmdHQ7Bvg:1756801926903&q=Sur+Quatre+Roues+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2MzYwNTI1MzM2NrQwNja1MLQw2MDI-IpRNLi0SCGwNLGkKFUhKL80tVjBsSyzeBErdnEAK7dK8koAAAA&rldimm=6305256633183358180&hl=fr-FR&ved=2ahUKEwjjlqyW1bmPAxU8UaQEHZMOIIYQ9fQKegQIXhAF&biw=1920&bih=901&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer">⭐ Laisser un avis Google</a>
+        </div>
         <h2>Localisation</h2>
-        <iframe src="https://www.google.com/maps?q=Sur+Quatre+Roues+Paris&output=embed" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps?q=821+Rte+de+Pertuis,+84240+La+Bastide-des-Jourdans&output=embed" allowfullscreen loading="lazy"></iframe>
       </div>
     </section>
   </main>
