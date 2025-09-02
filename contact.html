@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact - SQR</title>
+  <meta name="description" content="Coordonnées et informations de contact de SQR - Sur Quatre Roues." />
   <link rel="icon" type="image/jpeg" href="logo-sqr.jpg">
   <style>
     :root{
@@ -19,21 +20,26 @@
     html{scroll-behavior:smooth}
     body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
     a{text-decoration:none;color:inherit}
-    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    .container{max-width:900px;margin:0 auto;padding:0 20px}
     header{background:var(--bg-soft);padding:20px 0;box-shadow:var(--shadow)}
     .nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
     .brand img{height:60px;width:auto;vertical-align:middle;margin-right:8px}
     .brand{display:flex;align-items:center;font-weight:bold;font-size:1.1em}
     .menu{display:flex;gap:20px;align-items:center}
     .btn{background:var(--brand);color:#fff;padding:10px 16px;border-radius:var(--radius)}
-    .form-container{max-width:500px;margin:40px auto;background:var(--bg-soft);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);scroll-margin-top:120px}
-    .form-container label{display:block;margin-top:10px}
-    .form-container input,.form-container textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#0f1424;color:var(--text);margin-top:4px}
-    .form-container button{margin-top:12px;width:100%;padding:12px;border:none;border-radius:999px;background:var(--brand);color:#fff;font-weight:bold;font-size:16px;cursor:pointer}
-    .form-container button:hover{background:#154a91}
-    .success-message{display:none;margin-top:15px;padding:10px;border-radius:8px;background:var(--brand);color:#fff;text-align:center}
-    #backToTop{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);font-size:18px;display:none;align-items:center;justify-content:center;width:44px;height:44px}
-    #backToTop:hover{background:var(--accent);color:var(--bg)}
+    section{padding:40px 0}
+    h1,h2{margin-bottom:15px}
+    .contact-info{background:var(--bg-soft);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .contact-info p{margin:8px 0;color:var(--muted)}
+    iframe{border-radius:var(--radius);border:none;width:100%;height:300px;margin-top:20px}
+    footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
+    /* Bouton retour accueil fixe en bas */
+    .back-home{
+      position:fixed;left:50%;transform:translateX(-50%);
+      bottom:16px;z-index:99;background:var(--brand);color:#fff;
+      padding:12px 18px;border-radius:999px;box-shadow:var(--shadow);font-weight:700;
+    }
+    .back-home:hover{background:#154a91}
   </style>
 </head>
 <body>
@@ -43,71 +49,33 @@
       <nav class="menu">
         <a href="index.html#services">Nos services</a>
         <a href="index.html#catalogue">Nos véhicules</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="contact.html">Contact</a>
         <a class="btn" href="index.html">⬅ Retour</a>
       </nav>
     </div>
   </header>
-
-  <div class="form-container" id="form">
-    <h1>Contactez-nous</h1>
-    <form action="https://formsubmit.co/contact@sqr-auto.fr" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" id="_next" value="">
-      <input type="hidden" name="_subject" value="Nouveau message – SQR">
-      <input type="hidden" name="_template" value="table">
-
-      <label for="nom">Nom</label>
-      <input type="text" id="nom" name="Nom" required>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="Email" required>
-
-      <label for="message">Message</label>
-      <textarea id="message" name="Message" rows="5" required></textarea>
-
-      <button type="submit">Envoyer</button>
-    </form>
-    <div class="success-message" id="successMessage">✅ Merci, votre message a bien été envoyé.</div>
-  </div>
-
+  <main>
+    <section class="container">
+      <h1>Contactez-nous</h1>
+      <div class="contact-info">
+        <h2>Coordonnées</h2>
+        <p><strong>Adresse :</strong> 123 Rue des Automobiles, 75000 Paris, France</p>
+        <p><strong>Téléphone :</strong> <a href="tel:+33123456789">01 23 45 67 89</a></p>
+        <p><strong>Email :</strong> <a href="mailto:contact@sqr-auto.fr">contact@sqr-auto.fr</a></p>
+        <p><strong>Horaires :</strong> Lundi - Samedi : 9h00 - 18h00</p>
+        <h2>Localisation</h2>
+        <iframe src="https://www.google.com/maps?q=Sur+Quatre+Roues+Paris&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
   <footer>
     <div class="container">
       © <span id="year"></span> SQR - Sur Quatre Roues. Tous droits réservés.
     </div>
   </footer>
-
-  <button id="backToTop" title="Retour en haut">↑</button>
-
+  <a class="back-home" href="index.html">⬅ Retour à l’accueil</a>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('success') === 'true'){
-      document.getElementById('successMessage').style.display = 'block';
-    }
-    const next = location.origin + location.pathname.replace(/[^/]+$/, '') + 'contact.html?success=true';
-    document.getElementById('_next').value = next;
-
-    if(location.hash === '#form'){
-      const formEl = document.getElementById('form');
-      if(formEl){
-        formEl.scrollIntoView({behavior:'smooth'});
-        const nameField = document.getElementById('nom');
-        if(nameField) nameField.focus();
-      }
-    }
-
-    const btn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if(document.documentElement.scrollTop > 300){
-        btn.style.display = 'flex';
-      } else {
-        btn.style.display = 'none';
-      }
-    });
-    btn.addEventListener('click', () => {
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
   </script>
 </body>
 </html>
