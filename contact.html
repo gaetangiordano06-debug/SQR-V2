@@ -41,6 +41,20 @@ header.scrolled{
   backdrop-filter: blur(6px);
 }
 
+
+/* Highlight temporaire de la section Avis */
+@keyframes avisPulse {
+  0% { box-shadow: 0 0 0 0 rgba(102,229,208,0.0); background: transparent; }
+  20% { box-shadow: 0 0 0 6px rgba(102,229,208,0.25); background: rgba(102,229,208,0.06); }
+  60% { box-shadow: 0 0 0 2px rgba(102,229,208,0.18); background: rgba(102,229,208,0.04); }
+  100% { box-shadow: 0 0 0 0 rgba(102,229,208,0.0); background: transparent; }
+}
+.section-highlight {
+  animation: avisPulse 2.2s ease-out 1;
+  transition: background .6s ease, box-shadow .6s ease;
+  border-radius: 12px;
+}
+
 </style>
 </head>
 <body>
@@ -50,7 +64,7 @@ header.scrolled{
       <nav class="menu">
         <a href="index.html#catalogue">Nos véhicules</a>
         <a href="index.html#services">Nos services</a>
-        <a href="https://www.google.com/search?sa=X&sca_esv=7ebae87ec67bf7ae&tbm=lcl&sxsrf=AE3TifOjeN0Jza0qbtDFCFflpxmdHQ7Bvg:1756801926903&q=Sur+Quatre+Roues+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2MzYwNTI1MzM2NrQwNja1MLQw2MDI-IpRNLi0SCGwNLGkKFUhKL80tVjBsSyzeBErdnEAK7dK8koAAAA&rldimm=6305256633183358180&hl=fr-FR&ved=2ahUKEwjjlqyW1bmPAxU8UaQEHZMOIIYQ9fQKegQIXhAF&biw=1920&bih=901&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer" aria-label="Avis clients Google">Avis clients</a>
+        <a href="index.html#avis">Avis clients</a>
         <a class="btn" href="contact.html">Contact</a>
       </nav>
     </div>
@@ -116,6 +130,34 @@ header.scrolled{
       }
       document.addEventListener('scroll', onScroll, {passive:true});
       onScroll();
+    })();
+  </script>
+
+
+  <script>
+    (function(){
+      function highlightAvis(){
+        const sec = document.querySelector('#avis .container') || document.querySelector('#avis');
+        if(!sec) return;
+        sec.classList.add('section-highlight');
+        setTimeout(()=> sec.classList.remove('section-highlight'), 2300);
+      }
+      // On load if hash is #avis
+      if(location.hash === '#avis'){
+        setTimeout(highlightAvis, 100); // wait for scroll padding
+      }
+      // When clicking header link
+      document.addEventListener('click', (e)=>{
+        const a = e.target.closest('a[href="#avis"], a[href="index.html#avis"]');
+        if(a){
+          // Let smooth-scroll run, then highlight
+          setTimeout(highlightAvis, 450);
+        }
+      });
+      // On hash change (manual navigation)
+      window.addEventListener('hashchange', ()=>{
+        if(location.hash === '#avis') setTimeout(highlightAvis, 100);
+      });
     })();
   </script>
 
