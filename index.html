@@ -81,6 +81,12 @@
     .lightbox-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
     .lightbox-nav:hover{background:rgba(255,255,255,.2)}
 
+
+/* Fix z-index: badges au-dessus des photos */
+#catalogue .card{ position:relative; overflow:hidden; }
+#catalogue .card img{ position:relative; z-index:1; }
+#catalogue .badge{ position:absolute; top:12px; left:12px; z-index:3; pointer-events:none; }
+
 </style>
 </head>
 <body>
