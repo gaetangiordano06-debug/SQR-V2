@@ -152,7 +152,7 @@ header.scrolled{
 
         
 
-          <div class="card">
+          <div class="card" data-badges="heart">
             <img src="Fiat Punto 1.2 ELX.jpg" alt="Fiat Punto 1.2 ELX">
             <h3>Fiat Punto 1.2 ELX</h3>
             <p class="price">3 490 €</p>
@@ -482,6 +482,63 @@ header.scrolled{
             card.insertBefore(el, card.firstElementChild);
           }
         });
+      });
+    })();
+  </script>
+
+
+  <div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
+    <div class="lightbox-content">
+      <button class="lightbox-nav" id="lb-prev" aria-label="Précédent">‹</button>
+      <img id="lb-img" src="" alt="Agrandissement véhicule">
+      <button class="lightbox-nav" id="lb-next" aria-label="Suivant">›</button>
+      <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
+    </div>
+  </div>
+
+
+  <script>
+    (function(){
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lb-img');
+      const prev = document.getElementById('lb-prev');
+      const next = document.getElementById('lb-next');
+      const closeBtn = document.getElementById('lb-close');
+      let gallery = [];
+      let idx = 0;
+      function openWith(arr, startIdx){
+        gallery = (arr||[]).filter(Boolean);
+        idx = Math.max(0, Math.min(startIdx||0, gallery.length-1));
+        if(!gallery.length) return;
+        lbImg.src = gallery[idx];
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      function nav(d){
+        if(!gallery.length) return;
+        idx = (idx + d + gallery.length) % gallery.length;
+        lbImg.src = gallery[idx];
+      }
+      // Delegate clicks on catalogue images
+      document.addEventListener('click', (e) => {
+        const img = e.target.closest('#catalogue .card img');
+        if(!img) return;
+        e.preventDefault();
+        const galAttr = img.getAttribute('data-gallery') || '';
+        const arr = galAttr ? galAttr.split('|') : [img.currentSrc || img.src];
+        const start = Math.max(0, arr.indexOf(img.getAttribute('src')));
+        openWith(arr, start);
+      });
+      prev.addEventListener('click', () => nav(-1));
+      next.addEventListener('click', () => nav(1));
+      function closeLB(){ lb.classList.remove('active'); lbImg.src=''; document.body.style.overflow=''; gallery=[]; }
+      closeBtn.addEventListener('click', closeLB);
+      lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLB(); });
+      document.addEventListener('keydown', (e)=>{
+        if(!lb.classList.contains('active')) return;
+        if(e.key === 'Escape') closeLB();
+        if(e.key === 'ArrowLeft') nav(-1);
+        if(e.key === 'ArrowRight') nav(1);
       });
     })();
   </script>
