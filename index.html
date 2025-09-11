@@ -464,5 +464,50 @@
     })();
   </script>
 
+
+  <script>
+    // Anti-doublon: supprime les cartes véhicule avec le même titre (garde la 1ère)
+    (function(){
+      const container = document.querySelector('#catalogue .gallery');
+      if(!container) return;
+      const cards = Array.from(container.querySelectorAll('.card'));
+      const seen = new Set();
+      cards.forEach(card => {
+        const title = (card.querySelector('h3')?.textContent || '').toLowerCase().trim();
+        const key = title.replace(/\s+/g,' ');
+        if(seen.has(key)){
+          card.remove();
+        } else {
+          seen.add(key);
+        }
+      });
+      if(window.console) console.info('[SQR] Anti-doublon appliqué. Cartes uniques par titre:', seen.size);
+    })();
+  </script>
+
+
+  <script>
+    (function(){
+      // Guard: ensure "Nos services" link exists in header and points to #services
+      const nav = document.querySelector('header .menu');
+      if(nav && !nav.querySelector('a[href="#services"]')){
+        const a = document.createElement('a');
+        a.href = '#services';
+        a.textContent = 'Nos services';
+        nav.insertBefore(a, nav.firstChild);
+        console.warn('[SQR] Lien "Nos services" restauré automatiquement');
+      }
+      // Guard: ensure section#services exists
+      if(!document.getElementById('services')){
+        const sec = document.createElement('section');
+        sec.id = 'services';
+        sec.innerHTML = '<div class="container"><h2>Nos services</h2><p class="section-sub">Des solutions complètes pour acheter en toute sérénité</p><div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px"><div class="card"><h3>Reprise de votre véhicule</h3><p style="color:var(--muted)">Estimation rapide et démarches prises en charge.</p></div><div class="card"><h3>Garantie & révision</h3><p style="color:var(--muted)">Véhicules contrôlés et extension de garantie possible.</p></div><div class="card"><h3>Livraison & immatriculation</h3><p style="color:var(--muted)">Carte grise, plaques provisoires, options de livraison.</p></div></div></div>';
+        const main = document.querySelector('main');
+        if(main) main.appendChild(sec);
+        console.warn('[SQR] Section "Nos services" recréée automatiquement');
+      }
+    })();
+  </script>
+
 </body>
 </html>
