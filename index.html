@@ -444,5 +444,47 @@ header.scrolled{
     })();
   </script>
 
+
+  <script>
+    // Inject badges based on data-badges attribute
+    (function(){
+      const map = {
+        'heart': () => {
+          const s = document.createElement('span');
+          s.className = 'badge coupdecoeur';
+          s.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+          return s;
+        },
+        'rare': () => {
+          const s = document.createElement('span');
+          s.className = 'badge rare'; s.textContent = 'Rare'; return s;
+        },
+        'new': () => {
+          const s = document.createElement('span');
+          s.className = 'badge new'; s.textContent = 'Nouveau'; return s;
+        },
+        'sold': () => {
+          const s = document.createElement('span');
+          s.className = 'badge sold'; s.textContent = 'Vendu'; return s;
+        }
+      };
+      const cards = document.querySelectorAll('#catalogue .card');
+      cards.forEach(card => {
+        // Avoid duplicates: remove existing badges before injecting
+        card.querySelectorAll('.badge').forEach(b => b.remove());
+        const attr = (card.getAttribute('data-badges')||'').trim();
+        if(!attr) return;
+        const items = attr.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+        items.forEach(key => {
+          if(map[key]){
+            const el = map[key]();
+            // insert as first element for z-index correctness
+            card.insertBefore(el, card.firstElementChild);
+          }
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
