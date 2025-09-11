@@ -87,6 +87,18 @@
 #catalogue .card img{ position:relative; z-index:1; }
 #catalogue .badge{ position:absolute; top:12px; left:12px; z-index:3; pointer-events:none; }
 
+
+header{position:sticky;top:0;z-index:1000}
+body{scroll-padding-top:100px}
+
+
+/* Effet visuel du header au scroll */
+header.scrolled{
+  background: rgba(18, 24, 42, 0.92) !important; /* var(--bg-soft) avec opacité */
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+}
+
 </style>
 </head>
 <body>
@@ -94,8 +106,8 @@
     <div class="container nav">
       <a href="#" class="brand"><img src="logo-sqr.jpg" alt="Logo SQR - Sur Quatre Roues"> Sur Quatre Roues</a>
       <nav class="menu">
-        <a href="#services">Nos services</a>
         <a href="#catalogue">Nos véhicules</a>
+        <a href="#services">Nos services</a>
         <a href="https://www.google.com/search?sa=X&sca_esv=7ebae87ec67bf7ae&tbm=lcl&sxsrf=AE3TifOjeN0Jza0qbtDFCFflpxmdHQ7Bvg:1756801926903&q=Sur+Quatre+Roues+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2MzYwNTI1MzM2NrQwNja1MLQw2MDI-IpRNLi0SCGwNLGkKFUhKL80tVjBsSyzeBErdnEAK7dK8koAAAA&rldimm=6305256633183358180&hl=fr-FR&ved=2ahUKEwjjlqyW1bmPAxU8UaQEHZMOIIYQ9fQKegQIXhAF&biw=1920&bih=901&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer" aria-label="Avis clients Google">Avis clients ★ 4.9</a>
         <a class="btn" href="contact.html">Contact</a>
       </nav>
@@ -578,6 +590,44 @@
           }
         });
       });
+    })();
+  </script>
+
+
+  <script>
+    // Smooth-scroll for same-page anchors
+    (function(){
+      const isSamePage = (href) => href && href.startsWith('#');
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[href^="#"]');
+        if(!a) return;
+        const id = a.getAttribute('href');
+        if(id && id.startsWith('#')){
+          const el = document.querySelector(id);
+          if(el){
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    })();
+  </script>
+
+
+  <script>
+    // Ajoute la classe 'scrolled' au header quand la page est descendue
+    (function(){
+      const header = document.querySelector('header');
+      if(!header) return;
+      function onScroll(){
+        if(window.scrollY > 10){
+          header.classList.add('scrolled');
+        }else{
+          header.classList.remove('scrolled');
+        }
+      }
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
     })();
   </script>
 
