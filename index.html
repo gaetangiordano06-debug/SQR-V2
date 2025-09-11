@@ -413,276 +413,40 @@ header.scrolled{
     </div>
   </footer>
   <button id="backToTop" title="Retour en haut">↑</button>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const btn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => { btn.style.display = (document.documentElement.scrollTop > 300) ? 'flex' : 'none'; });
-    btn.addEventListener('click', () => { window.scrollTo({top:0, behavior:'smooth'}); });
-  </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function(){
-      const cards = Array.from(document.querySelectorAll('#catalogue .card'));
-      // Helper to parse numbers
-      const toNum = (s) => {
-        if(!s) return NaN;
-        return parseInt(String(s).replace(/[^0-9]/g,''),10);
-      };
-      // Build data for each card
-      cards.forEach(card => {
-        const title = card.querySelector('h3')?.textContent.trim() || '';
-        const priceText = card.querySelector('.price')?.textContent || '';
-        const info = card.querySelectorAll('p')[1]?.textContent || '';
-        // Extract year, km, fuel
-        const yearMatch = info.match(/(20\d{2}|19\d{2})/);
-        const kmMatch = info.match(/([0-9][0-9\s\.]{2,})\s*km/i);
-        const fuelMatch = info.match(/Essence|Diesel/i);
-        const price = toNum(priceText);
-        const kms = kmMatch ? toNum(kmMatch[1]) : NaN;
-        const year = yearMatch ? yearMatch[1] : '';
-        const fuel = fuelMatch ? fuelMatch[0] : '';
-        card.dataset.title = title.toLowerCase();
-        card.dataset.price = price || '';
-        card.dataset.kms = kms || '';
-        card.dataset.year = year || '';
-        card.dataset.fuel = fuel;
-      });
-
-      // Badges mapping
-      const badges = {
-        "toyota hilux": {text:"Nouveau", cls:""},
-        "mini cooper sd": {text:"Réservé", cls:"reserved"}
-      };
-      cards.forEach(card => {
-        const t = (card.dataset.title||'').toLowerCase();
-        if(badges[t]){
-          const b = document.createElement('span');
-          b.className = 'badge ' + (badges[t].cls||'');
-          b.textContent = badges[t].text;
-          card.appendChild(b);
-        }
-      });
-
-      // Filters
-      const fFuel = document.getElementById('f-fuel');
-      const fPrice = document.getElementById('f-price');
-      const fSearch = document.getElementById('f-search');
-      const fClear = document.getElementById('f-clear');
-
-      function applyFilters(){
-        const fuel = fFuel.value;
-        const maxPrice = parseInt(fPrice.value || '0', 10);
-        const q = (fSearch.value || '').toLowerCase().trim();
-        cards.forEach(card => {
-          const okFuel = !fuel || (card.dataset.fuel.toLowerCase() === fuel.toLowerCase());
-          const okPrice = !maxPrice || (parseInt(card.dataset.price||'0',10) <= maxPrice);
-          const okSearch = !q || card.dataset.title.includes(q);
-          card.style.display = (okFuel && okPrice && okSearch) ? '' : 'none';
-        });
-      }
-      [fFuel, fPrice, fSearch].forEach(el => el.addEventListener('input', applyFilters));
-      fClear.addEventListener('click', () => {
-        fFuel.value=''; fPrice.value=''; fSearch.value=''; applyFilters();
-      });
-    });
-  </script>
 
 
-  
-  <div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
-    <div class="lightbox-content">
-      <button class="lightbox-nav" id="lb-prev" aria-label="Précédent">‹</button>
-      <img id="lb-img" src="" alt="Agrandissement véhicule">
-      <button class="lightbox-nav" id="lb-next" aria-label="Suivant">›</button>
-      <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
-    </div>
-  </div>
-</div>
 
 
   <script>
+    // Unified section highlight: works for #catalogue, #services, #avis
     (function(){
-      const lb = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lb-img');
-      const prev = document.getElementById('lb-prev');
-      const next = document.getElementById('lb-next');
-      const closeBtn = document.getElementById('lb-close');
-      let gallery = [];
-      let idx = 0;
-      function openLB(arr, start){
-        gallery = (arr||[]).filter(Boolean);
-        idx = Math.max(0, Math.min(start||0, gallery.length-1));
-        if(!gallery.length) return;
-        lbImg.src = gallery[idx];
-        lb.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-      function nav(d){
-        if(!gallery.length) return;
-        idx = (idx + d + gallery.length) % gallery.length;
-        lbImg.src = gallery[idx];
-      }
-      document.addEventListener('click', (e) => {
-        const img = e.target.closest('#catalogue .card img');
-        if(!img) return;
-        e.preventDefault();
-        const list = (img.getAttribute('data-gallery')||'').split('|').filter(Boolean);
-        const cur = img.getAttribute('src');
-        const start = Math.max(0, list.indexOf(cur));
-        openLB(list.length ? list : [cur], start);
-      });
-      prev.addEventListener('click', () => nav(-1));
-      next.addEventListener('click', () => nav(1));
-      function closeLB(){ lb.classList.remove('active'); lbImg.src=''; document.body.style.overflow=''; gallery=[]; }
-      closeBtn.addEventListener('click', closeLB);
-      lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLB(); });
-      document.addEventListener('keydown', (e)=>{
-        if(!lb.classList.contains('active')) return;
-        if(e.key === 'Escape') closeLB();
-        if(e.key === 'ArrowLeft') nav(-1);
-        if(e.key === 'ArrowRight') nav(1);
-      });
-    })();
-  </script>
-
-
-  <script>
-    // Anti-doublon: supprime les cartes véhicule avec le même titre (garde la 1ère)
-    (function(){
-      const container = document.querySelector('#catalogue .gallery');
-      if(!container) return;
-      const cards = Array.from(container.querySelectorAll('.card'));
-      const seen = new Set();
-      cards.forEach(card => {
-        const title = (card.querySelector('h3')?.textContent || '').toLowerCase().trim();
-        const key = title.replace(/\s+/g,' ');
-        if(seen.has(key)){
-          card.remove();
-        } else {
-          seen.add(key);
-        }
-      });
-      if(window.console) console.info('[SQR] Anti-doublon appliqué. Cartes uniques par titre:', seen.size);
-    })();
-  </script>
-
-
-  <script>
-    // Helper: apply badges based on data-badges="new|sold|rare|heart"
-    (function(){
-      const map = {
-        'new': () => {
-          const s = document.createElement('span');
-          s.className = 'badge new'; s.textContent = 'Nouveau'; return s;
-        },
-        'sold': () => {
-          const s = document.createElement('span');
-          s.className = 'badge sold'; s.textContent = 'Vendu'; return s;
-        },
-        'rare': () => {
-          const s = document.createElement('span');
-          s.className = 'badge rare'; s.textContent = 'Rare'; return s;
-        },
-        'heart': () => {
-          const s = document.createElement('span');
-          s.className = 'badge coupdecoeur';
-          s.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
-          return s;
-        }
-      };
-      const cards = document.querySelectorAll('#catalogue .card[data-badges]');
-      cards.forEach(card => {
-        const want = (card.getAttribute('data-badges')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
-        if(!want.length) return;
-        // avoid duplicates: skip if badge already present
-        want.forEach(key => {
-          if(!map[key]) return;
-          const has = card.querySelector('.badge.' + (key==='heart' ? 'coupdecoeur' : key));
-          if(!has){
-            const el = map[key]();
-            card.insertBefore(el, card.firstElementChild);
-          }
-        });
-      });
-    })();
-  </script>
-
-
-  <script>
-    // Smooth-scroll for same-page anchors
-    (function(){
-      const isSamePage = (href) => href && href.startsWith('#');
-      document.addEventListener('click', (e) => {
-        const a = e.target.closest('a[href^="#"]');
-        if(!a) return;
-        const id = a.getAttribute('href');
-        if(id && id.startsWith('#')){
-          const el = document.querySelector(id);
-          if(el){
-            e.preventDefault();
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
-      });
-    })();
-  </script>
-
-
-  <script>
-    // Ajoute la classe 'scrolled' au header quand la page est descendue
-    (function(){
-      const header = document.querySelector('header');
-      if(!header) return;
-      function onScroll(){
-        if(window.scrollY > 10){
-          header.classList.add('scrolled');
-        }else{
-          header.classList.remove('scrolled');
-        }
-      }
-      document.addEventListener('scroll', onScroll, {passive:true});
-      onScroll();
-    })();
-  </script>
-
-
-  
-  <script>
-    (function(){
-      function pulse(el){
+      const targets = ['#catalogue', '#services', '#avis'];
+      function pulseSel(sel){
+        const el = document.querySelector(sel + ' .container') || document.querySelector(sel);
         if(!el) return;
         el.classList.add('section-highlight');
         setTimeout(()=> el.classList.remove('section-highlight'), 2300);
       }
-      function highlightAvis(){
-        const sec = document.querySelector('#avis .container') || document.querySelector('#avis');
-        pulse(sec);
+      function maybePulseFromHash(){
+        const h = location.hash;
+        if(targets.includes(h)) setTimeout(()=> pulseSel(h), 100);
       }
-      function highlightServices(){
-        const sec = document.querySelector('#services .container') || document.querySelector('#services');
-        pulse(sec);
-      }
-      // On load
-      if(location.hash === '#avis'){ setTimeout(highlightAvis, 100); }
-      if(location.hash === '#services'){ setTimeout(highlightServices, 100); }
-      // On clicks from header
+      // on load
+      maybePulseFromHash();
+      // on hashchange
+      window.addEventListener('hashchange', maybePulseFromHash);
+      // on header clicks (anchors to our targets)
       document.addEventListener('click', (e)=>{
-        const a = e.target.closest('a[href="#avis"], a[href="index.html#avis"], a[href="#services"], a[href="index.html#services"]');
-        if(a){
-          setTimeout(()=>{
-            if(a.getAttribute('href').includes('#avis')) highlightAvis();
-            if(a.getAttribute('href').includes('#services')) highlightServices();
-          }, 450);
+        const a = e.target.closest('a[href]');
+        if(!a) return;
+        const href = a.getAttribute('href') || '';
+        const hash = href.includes('#') ? '#' + href.split('#').pop() : '';
+        if(targets.includes(hash)){
+          setTimeout(()=> pulseSel(hash), 450);
         }
-      });
-      // On hashchange
-      window.addEventListener('hashchange', ()=>{
-        if(location.hash === '#avis'){ setTimeout(highlightAvis, 100); }
-        if(location.hash === '#services'){ setTimeout(highlightServices, 100); }
       });
     })();
   </script>
-
 
 </body>
 </html>

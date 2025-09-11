@@ -94,83 +94,40 @@ header.scrolled{
     </div>
   </footer>
   <a class="back-home" href="index.html">⬅ Retour à l’accueil</a>
-  <script> document.getElementById('year').textContent = new Date().getFullYear(); </script>
 
-  <script>
-    // Smooth-scroll for same-page anchors
-    (function(){
-      const isSamePage = (href) => href && href.startsWith('#');
-      document.addEventListener('click', (e) => {
-        const a = e.target.closest('a[href^="#"]');
-        if(!a) return;
-        const id = a.getAttribute('href');
-        if(id && id.startsWith('#')){
-          const el = document.querySelector(id);
-          if(el){
-            e.preventDefault();
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
-      });
-    })();
-  </script>
+
 
 
   <script>
-    // Ajoute la classe 'scrolled' au header quand la page est descendue
+    // Unified section highlight: works for #catalogue, #services, #avis
     (function(){
-      const header = document.querySelector('header');
-      if(!header) return;
-      function onScroll(){
-        if(window.scrollY > 10){
-          header.classList.add('scrolled');
-        }else{
-          header.classList.remove('scrolled');
-        }
-      }
-      document.addEventListener('scroll', onScroll, {passive:true});
-      onScroll();
-    })();
-  </script>
-
-
-  
-  <script>
-    (function(){
-      function pulse(el){
+      const targets = ['#catalogue', '#services', '#avis'];
+      function pulseSel(sel){
+        const el = document.querySelector(sel + ' .container') || document.querySelector(sel);
         if(!el) return;
         el.classList.add('section-highlight');
         setTimeout(()=> el.classList.remove('section-highlight'), 2300);
       }
-      function highlightAvis(){
-        const sec = document.querySelector('#avis .container') || document.querySelector('#avis');
-        pulse(sec);
+      function maybePulseFromHash(){
+        const h = location.hash;
+        if(targets.includes(h)) setTimeout(()=> pulseSel(h), 100);
       }
-      function highlightServices(){
-        const sec = document.querySelector('#services .container') || document.querySelector('#services');
-        pulse(sec);
-      }
-      // On load
-      if(location.hash === '#avis'){ setTimeout(highlightAvis, 100); }
-      if(location.hash === '#services'){ setTimeout(highlightServices, 100); }
-      // On clicks from header
+      // on load
+      maybePulseFromHash();
+      // on hashchange
+      window.addEventListener('hashchange', maybePulseFromHash);
+      // on header clicks (anchors to our targets)
       document.addEventListener('click', (e)=>{
-        const a = e.target.closest('a[href="#avis"], a[href="index.html#avis"], a[href="#services"], a[href="index.html#services"]');
-        if(a){
-          setTimeout(()=>{
-            if(a.getAttribute('href').includes('#avis')) highlightAvis();
-            if(a.getAttribute('href').includes('#services')) highlightServices();
-          }, 450);
+        const a = e.target.closest('a[href]');
+        if(!a) return;
+        const href = a.getAttribute('href') || '';
+        const hash = href.includes('#') ? '#' + href.split('#').pop() : '';
+        if(targets.includes(hash)){
+          setTimeout(()=> pulseSel(hash), 450);
         }
-      });
-      // On hashchange
-      window.addEventListener('hashchange', ()=>{
-        if(location.hash === '#avis'){ setTimeout(highlightAvis, 100); }
-        if(location.hash === '#services'){ setTimeout(highlightServices, 100); }
       });
     })();
   </script>
-
 
 </body>
 </html>
