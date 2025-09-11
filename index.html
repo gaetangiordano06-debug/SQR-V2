@@ -113,6 +113,30 @@ header.scrolled{
   border-radius: 12px;
 }
 
+
+    /* Filtres modernes */
+    .filters{background:var(--bg-soft);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin:16px 0}
+    .filters-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
+    .input{position:relative;display:flex;align-items:center;background:#0e1322;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px 12px}
+    .input input{background:transparent;border:none;outline:none;color:var(--text);width:100%;font-size:0.95rem}
+    .input svg{width:18px;height:18px;opacity:.7;margin-right:8px}
+    .select{display:flex;flex-direction:column;gap:6px}
+    .select select{appearance:none;background:#0e1322;border:1px solid rgba(255,255,255,.08);color:var(--text);padding:10px 12px;border-radius:12px}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text);padding:10px 14px;border-radius:12px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);padding:6px 10px;border-radius:999px;font-size:.85rem;display:flex;align-items:center;gap:6px}
+    .chip button{background:transparent;border:none;color:var(--text);cursor:pointer;opacity:.8}
+    .muted.small{color:var(--muted);font-size:.9rem;margin-top:8px}
+    /* Transition cards */
+    #catalogue .card{transition:transform .18s ease, opacity .18s ease;}
+    #catalogue .card.hide{opacity:.0;transform:scale(.98);pointer-events:none;position:relative}
+
+
+    /* Sticky filters */
+    @media (min-width: 900px){
+      #filters{ position:sticky; top:90px; z-index:5 }
+    }
+
 </style>
 </head>
 <body>
@@ -540,6 +564,137 @@ header.scrolled{
         if(e.key === 'ArrowLeft') nav(-1);
         if(e.key === 'ArrowRight') nav(1);
       });
+    })();
+  </script>
+
+
+  <script>
+    (function(){
+      const gallery = document.querySelector('#catalogue .gallery');
+      if(!gallery) return;
+      const cards = Array.from(gallery.querySelectorAll('.card'));
+
+      // Parse specs from the text "2019 • 55 000 km • Essence"
+      function parseSpecs(card){
+        if(card.dataset.parsed) return;
+        const priceEl = card.querySelector('.price');
+        const specText = (card.querySelector('p:nth-of-type(2)')?.textContent || '').trim();
+        const title = (card.querySelector('h3')?.textContent || '').trim();
+        // Price
+        let price = 0;
+        if(priceEl){
+          price = parseInt(priceEl.textContent.replace(/[^0-9]/g,''),10) || 0;
+        }
+        // Year, KM, Fuel
+        let year = 0, km = 0, fuel = '';
+        const parts = specText.split('•').map(s=>s.trim());
+        if(parts[0]){
+          const y = parseInt(parts[0].replace(/[^0-9]/g,''),10);
+          if(!isNaN(y)) year = y;
+        }
+        if(parts[1]){
+          km = parseInt(parts[1].replace(/[^0-9]/g,''),10) || 0;
+        }
+        if(parts[2]){
+          fuel = parts[2];
+        }
+        card.dataset.price = String(price);
+        card.dataset.year = String(year);
+        card.dataset.km = String(km);
+        card.dataset.fuel = fuel;
+        card.dataset.title = title.toLowerCase();
+        card.dataset.specs = specText.toLowerCase();
+        card.dataset.parsed = '1';
+      }
+      cards.forEach(parseSpecs);
+
+      // Controls
+      const q = document.getElementById('q');
+      const fuel = document.getElementById('fuel');
+      const year = document.getElementById('year');
+      const price = document.getElementById('price');
+      const sort = document.getElementById('sort');
+      const resetBtn = document.getElementById('resetFilters');
+      const chips = document.getElementById('activeChips');
+      const resultsCount = document.getElementById('resultsCount');
+
+      function apply(){
+        const qv = (q.value||'').toLowerCase().trim();
+        const fv = fuel.value;
+        const yv = parseInt(year.value||'0',10) || 0;
+        const pv = parseInt(price.value||'0',10) || 0;
+
+        let shown = 0;
+        cards.forEach(c => {
+          parseSpecs(c);
+          const matchQ = !qv || c.dataset.title.includes(qv) || c.dataset.specs.includes(qv);
+          const matchFuel = !fv || c.dataset.fuel === fv;
+          const matchYear = !yv || (parseInt(c.dataset.year,10) || 0) >= yv;
+          const matchPrice = !pv || (parseInt(c.dataset.price,10) || 0) <= pv;
+          const ok = matchQ && matchFuel && matchYear && matchPrice;
+          c.classList.toggle('hide', !ok);
+          if(ok) shown++;
+        });
+
+        // Sort visible cards
+        const visible = cards.filter(c => !c.classList.contains('hide'));
+        const val = sort.value;
+        const cmp = {
+          'price-asc':  (a,b)=> (a.dataset.price|0) - (b.dataset.price|0),
+          'price-desc': (a,b)=> (b.dataset.price|0) - (a.dataset.price|0),
+          'year-desc':  (a,b)=> (b.dataset.year|0) - (a.dataset.year|0),
+          'km-asc':     (a,b)=> (a.dataset.km|0)   - (b.dataset.km|0),
+        }[val];
+        if(cmp){
+          visible.sort(cmp).forEach(el => gallery.appendChild(el));
+        }
+
+        // Chips
+        chips.innerHTML = '';
+        const chipDefs = [];
+        if(qv) chipDefs.push({k:'q',label:'Recherche: ' + q.value});
+        if(fv) chipDefs.push({k:'fuel',label:'Énergie: ' + fv});
+        if(yv) chipDefs.push({k:'year',label:'Année ≥ ' + yv});
+        if(pv) chipDefs.push({k:'price',label:'Prix ≤ ' + new Intl.NumberFormat('fr-FR').format(pv) + ' €'});
+
+        chipDefs.forEach(def => {
+          const c = document.createElement('span');
+          c.className='chip';
+          c.innerHTML = def.label + ' <button aria-label="Retirer filtre">×</button>';
+          c.querySelector('button').addEventListener('click', () => {
+            if(def.k==='q') q.value='';
+            if(def.k==='fuel') fuel.value='';
+            if(def.k==='year') year.value='';
+            if(def.k==='price') price.value='';
+            apply();
+          });
+          chips.appendChild(c);
+        });
+
+        // Results count
+        resultsCount.textContent = shown + ' véhicule' + (shown>1?'s':'') + ' trouvé' + (shown>1?'s':'');
+        // No results message
+        let empty = document.getElementById('noResults');
+        if(!empty){
+          empty = document.createElement('p');
+          empty.id='noResults';
+          empty.className='muted small';
+          empty.style.display='none';
+          empty.textContent = 'Aucun véhicule ne correspond à vos filtres.';
+          gallery.parentElement.appendChild(empty);
+        }
+        empty.style.display = shown ? 'none' : 'block';
+      }
+
+      // Events
+      [q,fuel,year,price,sort].forEach(el => el && el.addEventListener('input', apply));
+      resetBtn.addEventListener('click', ()=>{
+        q.value=''; fuel.value=''; year.value=''; price.value=''; sort.value='';
+        apply();
+      });
+
+      // Init
+      apply();
     })();
   </script>
 
