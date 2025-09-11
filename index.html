@@ -26,6 +26,21 @@
       transition:transform .35s ease, box-shadow .35s ease;
       will-change:transform;
     }
+    
+    /* Lightbox */
+    .lightbox-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.8);
+      display:none;align-items:center;justify-content:center;z-index:9999;
+      padding:24px;
+    }
+    .lightbox-backdrop.active{display:flex}
+    .lightbox-content{max-width:92vw;max-height:86vh;position:relative}
+    .lightbox-content img{max-width:100%;max-height:86vh;border-radius:12px;display:block}
+    .lightbox-close{
+      position:absolute;top:-12px;right:-12px;background:#111;border:1px solid rgba(255,255,255,.2);
+      color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer
+    }
+
     #catalogue .card:hover img{
       transform:scale(1.06);
       box-shadow:0 10px 25px rgba(0,0,0,.35);
@@ -443,6 +458,41 @@
         fFuel.value=''; fPrice.value=''; fSearch.value=''; applyFilters();
       });
     });
+  </script>
+
+
+  <div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
+      <img id="lb-img" src="" alt="Agrandissement véhicule">
+    </div>
+  </div>
+
+
+  <script>
+    (function(){
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lb-img');
+      const lbClose = document.getElementById('lb-close');
+      // Delegate clicks on images inside #catalogue
+      document.addEventListener('click', (e) => {
+        const img = e.target.closest('#catalogue .card img');
+        if(img){
+          e.preventDefault();
+          lbImg.src = img.src;
+          lb.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+      function closeLB(){
+        lb.classList.remove('active');
+        lbImg.src = '';
+        document.body.style.overflow = '';
+      }
+      lbClose.addEventListener('click', closeLB);
+      lb.addEventListener('click', (e) => { if(e.target === lb) closeLB(); });
+      document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLB(); });
+    })();
   </script>
 
 </body>
