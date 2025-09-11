@@ -20,6 +20,17 @@
     .card{background:var(--bg-soft);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column}
     .card img{border-radius:var(--radius);margin-bottom:10px;object-fit:cover;aspect-ratio:16/9}
     .price{color:var(--accent);font-weight:bold;font-size:1.2em;margin:8px 0}
+    .filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 22px}
+    .filters input[type="number"], .filters input[type="text"], .filters select{
+      background:#0f1526;color:#e9eefc;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;min-width:160px
+    }
+    .filters label{font-size:.9em;color:var(--muted)}
+    .filters .btn-clear{background:transparent;border:1px solid rgba(255,255,255,.2);color:#e9eefc;padding:8px 12px;border-radius:10px}
+    .card{position:relative}
+    .badge{position:absolute;top:12px;left:12px;background:#ffd54f;color:#111;font-weight:700;font-size:.8em;padding:6px 10px;border-radius:999px;box-shadow:var(--shadow)}
+    .badge.reserved{background:#ffb74d}
+    .badge.sold{background:#ef5350;color:#fff}
+
     footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
     #backToTop{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);font-size:18px;display:none;align-items:center;justify-content:center;width:44px;height:44px;} #backToTop:hover{background:var(--accent);color:var(--bg)}
     .review-header{display:flex;align-items:center;gap:10px;margin-bottom:8px} .avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:#222}
@@ -53,6 +64,22 @@
       <div class="container">
         <h2>Nos véhicules disponibles</h2>
         <p class="section-sub">Découvre notre sélection de 11 véhicules</p>
+        <div class="filters" id="filters">
+          <label>Carburant
+            <select id="f-fuel">
+              <option value="">Tous</option>
+              <option value="Essence">Essence</option>
+              <option value="Diesel">Diesel</option>
+            </select>
+          </label>
+          <label>Prix max (€)
+            <input id="f-price" type="number" placeholder="ex : 10000" min="0" step="500">
+          </label>
+          <label>Recherche
+            <input id="f-search" type="text" placeholder="modèle, marque...">
+          </label>
+          <button class="btn-clear" id="f-clear" type="button">Effacer</button>
+        </div>
         <div class="gallery">
 
           <div class="card">
@@ -300,5 +327,73 @@
     window.addEventListener('scroll', () => { btn.style.display = (document.documentElement.scrollTop > 300) ? 'flex' : 'none'; });
     btn.addEventListener('click', () => { window.scrollTo({top:0, behavior:'smooth'}); });
   </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const cards = Array.from(document.querySelectorAll('#catalogue .card'));
+      // Helper to parse numbers
+      const toNum = (s) => {
+        if(!s) return NaN;
+        return parseInt(String(s).replace(/[^0-9]/g,''),10);
+      };
+      // Build data for each card
+      cards.forEach(card => {
+        const title = card.querySelector('h3')?.textContent.trim() || '';
+        const priceText = card.querySelector('.price')?.textContent || '';
+        const info = card.querySelectorAll('p')[1]?.textContent || '';
+        // Extract year, km, fuel
+        const yearMatch = info.match(/(20\d{2}|19\d{2})/);
+        const kmMatch = info.match(/([0-9][0-9\s\.]{2,})\s*km/i);
+        const fuelMatch = info.match(/Essence|Diesel/i);
+        const price = toNum(priceText);
+        const kms = kmMatch ? toNum(kmMatch[1]) : NaN;
+        const year = yearMatch ? yearMatch[1] : '';
+        const fuel = fuelMatch ? fuelMatch[0] : '';
+        card.dataset.title = title.toLowerCase();
+        card.dataset.price = price || '';
+        card.dataset.kms = kms || '';
+        card.dataset.year = year || '';
+        card.dataset.fuel = fuel;
+      });
+
+      // Badges mapping
+      const badges = {
+        "toyota hilux": {text:"Nouveau", cls:""},
+        "mini cooper sd": {text:"Réservé", cls:"reserved"}
+      };
+      cards.forEach(card => {
+        const t = (card.dataset.title||'').toLowerCase();
+        if(badges[t]){
+          const b = document.createElement('span');
+          b.className = 'badge ' + (badges[t].cls||'');
+          b.textContent = badges[t].text;
+          card.appendChild(b);
+        }
+      });
+
+      // Filters
+      const fFuel = document.getElementById('f-fuel');
+      const fPrice = document.getElementById('f-price');
+      const fSearch = document.getElementById('f-search');
+      const fClear = document.getElementById('f-clear');
+
+      function applyFilters(){
+        const fuel = fFuel.value;
+        const maxPrice = parseInt(fPrice.value || '0', 10);
+        const q = (fSearch.value || '').toLowerCase().trim();
+        cards.forEach(card => {
+          const okFuel = !fuel || (card.dataset.fuel.toLowerCase() === fuel.toLowerCase());
+          const okPrice = !maxPrice || (parseInt(card.dataset.price||'0',10) <= maxPrice);
+          const okSearch = !q || card.dataset.title.includes(q);
+          card.style.display = (okFuel && okPrice && okSearch) ? '' : 'none';
+        });
+      }
+      [fFuel, fPrice, fSearch].forEach(el => el.addEventListener('input', applyFilters));
+      fClear.addEventListener('click', () => {
+        fFuel.value=''; fPrice.value=''; fSearch.value=''; applyFilters();
+      });
+    });
+  </script>
+
 </body>
 </html>
