@@ -270,15 +270,70 @@
 
     
     
+    
     <section id="services">
       <div class="container">
         <h2>Nos services</h2>
         <p class="section-sub">Des solutions complètes pour acheter en toute sérénité</p>
         <div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
 
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
+                <circle cx="24" cy="24" r="22" fill="rgba(102,229,208,.15)"/>
+                <path d="M10 26h28v4a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4v-4zm4-8h6l3-3h8l3 3h4a4 4 0 0 1 4 4v4H6v-4a4 4 0 0 1 4-4z" fill="#66e5d0"/>
+              </svg>
+              <h3 style="margin:0">Reprise de votre véhicule</h3>
+            </div>
+            <p style="color:var(--muted)">Estimation rapide et transparente, avec possibilité d’apport pour votre prochain achat.</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Estimation sur place ou à distance</li>
+              <li>Démarches administratives prises en charge</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
+                <circle cx="24" cy="24" r="22" fill="rgba(255,255,255,.12)"/>
+                <path d="M24 10l14 8v12c0 5.523-6.268 8-14 8s-14-2.477-14-8V18l14-8z" fill="#e9eefc"/>
+                <path d="M20 26l3 3 6-6" stroke="#1a5cb5" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h3 style="margin:0">Garantie & révision</h3>
+            </div>
+            <p style="color:var(--muted)">Véhicules contrôlés et révisés, avec extension de garantie possible jusqu’à 24 mois.</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Contrôle 100+ points</li>
+              <li>Garantie nationale selon contrat</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
+                <circle cx="24" cy="24" r="22" fill="rgba(255,213,79,.18)"/>
+                <path d="M8 28h32v6a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4v-6z" fill="#ffd54f"/>
+                <path d="M12 22h8l2-2h12l2 2h4v6H8v-4a2 2 0 0 1 2-2z" fill="#c9a93a"/>
+                <path d="M30 18h6v4h-6z" fill="#ffd54f"/>
+              </svg>
+              <h3 style="margin:0">Livraison & immatriculation</h3>
+            </div>
+            <p style="color:var(--muted)">Plaques provisoires, carte grise, et livraison possible selon distance et disponibilité.</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Dossier carte grise</li>
+              <li>Options de livraison</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+          <a class="btn" href="contact.html">Demander une offre</a>
+          <a class="pill" href="contact.html">💬 Parler à un conseiller</a>
         </div>
       </div>
     </section>
+
 
 
 
@@ -482,30 +537,6 @@
         }
       });
       if(window.console) console.info('[SQR] Anti-doublon appliqué. Cartes uniques par titre:', seen.size);
-    })();
-  </script>
-
-
-  <script>
-    (function(){
-      // Guard: ensure "Nos services" link exists in header and points to #services
-      const nav = document.querySelector('header .menu');
-      if(nav && !nav.querySelector('a[href="#services"]')){
-        const a = document.createElement('a');
-        a.href = '#services';
-        a.textContent = 'Nos services';
-        nav.insertBefore(a, nav.firstChild);
-        console.warn('[SQR] Lien "Nos services" restauré automatiquement');
-      }
-      // Guard: ensure section#services exists
-      if(!document.getElementById('services')){
-        const sec = document.createElement('section');
-        sec.id = 'services';
-        sec.innerHTML = '<div class="container"><h2>Nos services</h2><p class="section-sub">Des solutions complètes pour acheter en toute sérénité</p><div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px"><div class="card"><h3>Reprise de votre véhicule</h3><p style="color:var(--muted)">Estimation rapide et démarches prises en charge.</p></div><div class="card"><h3>Garantie & révision</h3><p style="color:var(--muted)">Véhicules contrôlés et extension de garantie possible.</p></div><div class="card"><h3>Livraison & immatriculation</h3><p style="color:var(--muted)">Carte grise, plaques provisoires, options de livraison.</p></div></div></div>';
-        const main = document.querySelector('main');
-        if(main) main.appendChild(sec);
-        console.warn('[SQR] Section "Nos services" recréée automatiquement');
-      }
     })();
   </script>
 
