@@ -646,32 +646,43 @@ header.scrolled{
   </script>
 
 
+  
   <script>
     (function(){
+      function pulse(el){
+        if(!el) return;
+        el.classList.add('section-highlight');
+        setTimeout(()=> el.classList.remove('section-highlight'), 2300);
+      }
       function highlightAvis(){
         const sec = document.querySelector('#avis .container') || document.querySelector('#avis');
-        if(!sec) return;
-        sec.classList.add('section-highlight');
-        setTimeout(()=> sec.classList.remove('section-highlight'), 2300);
+        pulse(sec);
       }
-      // On load if hash is #avis
-      if(location.hash === '#avis'){
-        setTimeout(highlightAvis, 100); // wait for scroll padding
+      function highlightServices(){
+        const sec = document.querySelector('#services .container') || document.querySelector('#services');
+        pulse(sec);
       }
-      // When clicking header link
+      // On load
+      if(location.hash === '#avis'){ setTimeout(highlightAvis, 100); }
+      if(location.hash === '#services'){ setTimeout(highlightServices, 100); }
+      // On clicks from header
       document.addEventListener('click', (e)=>{
-        const a = e.target.closest('a[href="#avis"], a[href="index.html#avis"]');
+        const a = e.target.closest('a[href="#avis"], a[href="index.html#avis"], a[href="#services"], a[href="index.html#services"]');
         if(a){
-          // Let smooth-scroll run, then highlight
-          setTimeout(highlightAvis, 450);
+          setTimeout(()=>{
+            if(a.getAttribute('href').includes('#avis')) highlightAvis();
+            if(a.getAttribute('href').includes('#services')) highlightServices();
+          }, 450);
         }
       });
-      // On hash change (manual navigation)
+      // On hashchange
       window.addEventListener('hashchange', ()=>{
-        if(location.hash === '#avis') setTimeout(highlightAvis, 100);
+        if(location.hash === '#avis'){ setTimeout(highlightAvis, 100); }
+        if(location.hash === '#services'){ setTimeout(highlightServices, 100); }
       });
     })();
   </script>
+
 
 </body>
 </html>
