@@ -7,38 +7,21 @@
   <meta name="description" content="SQR - Sur Quatre Roues, spécialiste de la revente de véhicules d'occasion de qualité." />
   <link rel="icon" type="image/jpeg" href="logo-sqr.jpg">
   <style>
-    :root{
-      --bg:#0b0f1a;
-      --bg-soft:#12182a;
-      --text:#e9eefc;
-      --muted:#a9b4d0;
-      --brand:#1a5cb5;
-      --accent:#66e5d0;
-      --radius:20px;
-      --shadow:0 10px 30px rgba(0,0,0,.25);
-    }
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:inherit}
-    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    :root{ --bg:#0b0f1a; --bg-soft:#12182a; --text:#e9eefc; --muted:#a9b4d0; --brand:#1a5cb5; --accent:#66e5d0; --radius:20px; --shadow:0 10px 30px rgba(0,0,0,.25); }
+    html{scroll-behavior:smooth} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    a{text-decoration:none;color:inherit} .container{max-width:1100px;margin:0 auto;padding:0 20px}
     header{background:var(--bg-soft);padding:20px 0;box-shadow:var(--shadow)}
     .nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-    .brand img{height:60px;width:auto;vertical-align:middle;margin-right:8px}
-    .brand{display:flex;align-items:center;font-weight:bold;font-size:1.1em}
-    .menu{display:flex;gap:20px;align-items:center}
-    .btn{background:var(--brand);color:#fff;padding:10px 16px;border-radius:var(--radius)}
-    .hero{padding:50px 0;display:flex;flex-direction:column;gap:20px;align-items:flex-start;text-align:left}
-    .pill{background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:999px}
-    section{padding:50px 0}
-    h2{margin-bottom:10px}
-    .section-sub{color:var(--muted);margin-bottom:30px}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .card{background:var(--bg-soft);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column}
-    .card img{border-radius:var(--radius);margin-bottom:10px;object-fit:cover;aspect-ratio:16/9}
-    .price{color:var(--accent);font-weight:bold;font-size:1.2em;margin:8px 0}
+    .brand img{height:60px;width:auto;vertical-align:middle;margin-right:8px} .brand{display:flex;align-items:center;font-weight:bold;font-size:1.1em}
+    .menu{display:flex;gap:20px;align-items:center} .btn{background:var(--brand);color:#fff;padding:10px 16px;border-radius:var(--radius)}
+    .hero{padding:50px 0;display:flex;flex-direction:column;gap:20px;align-items:flex-start;text-align:left} .pill{background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:999px}
+    section{padding:50px 0} h2{margin-bottom:10px} .section-sub{color:var(--muted);margin-bottom:30px}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px} .card{background:var(--bg-soft);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .card img{border-radius:var(--radius);margin-bottom:10px;object-fit:cover;aspect-ratio:16/9} .price{color:var(--accent);font-weight:bold;font-size:1.2em;margin:8px 0}
     footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
-    #backToTop{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);font-size:18px;display:none;align-items:center;justify-content:center;width:44px;height:44px;}
-    #backToTop:hover{background:var(--accent);color:var(--bg)}
+    #backToTop{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);font-size:18px;display:none;align-items:center;justify-content:center;width:44px;height:44px;} #backToTop:hover{background:var(--accent);color:var(--bg)}
+    .review-header{display:flex;align-items:center;gap:10px;margin-bottom:8px} .avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}
+    .avatar img{width:40px;height:40px;border-radius:50%;object-fit:cover;display:block} .author{font-weight:700} .rating-line{display:flex;align-items:center;gap:6px;margin:4px 0 8px} .star{color:#ffd54f}
   </style>
 </head>
 <body>
@@ -102,34 +85,48 @@
       </div>
     </section>
 
-    <!-- Avis clients (statique pour aperçu Canvas) -->
+    <!-- Avis clients (statique avec avatars) -->
     <section id="avis">
       <div class="container">
         <h2>Avis clients</h2>
         <p class="section-sub">Ce que nos clients disent de Sur Quatre Roues</p>
         <div class="gallery">
+
           <div class="card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-            <meta itemprop="itemReviewed" content="Sur Quatre Roues">
-            <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
-              <span class="price" itemprop="ratingValue">5</span>★
+            <div class="review-header">
+              <span class="avatar"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2780%27%20height%3D%2780%27%3E%0A%20%20%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20rx%3D%2740%27%20ry%3D%2740%27%20fill%3D%27hsl%2812%2C70%25%2C35%25%29%27/%3E%0A%20%20%3Ctext%20x%3D%2750%25%27%20y%3D%2752%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2732%27%20fill%3D%27white%27%20font-weight%3D%27700%27%3ETP%3C/text%3E%0A%3C/svg%3E" alt="Avatar Thomas P."></span>
+              <div>
+                <div class="author" itemprop="author">Thomas P.</div>
+                <div class="rating-line"><span class="star">★</span>5 / 5 • <span style="color:var(--muted)">il y a 2 semaines</span></div>
+              </div>
             </div>
             <p style="color:var(--muted)" itemprop="reviewBody">“Super accueil et véhicule impeccable. Démarches rapides et pro.”</p>
-            <p><strong itemprop="author">Thomas P.</strong> — Google</p>
           </div>
+        
+
           <div class="card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-            <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
-              <span class="price" itemprop="ratingValue">5</span>★
+            <div class="review-header">
+              <span class="avatar"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2780%27%20height%3D%2780%27%3E%0A%20%20%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20rx%3D%2740%27%20ry%3D%2740%27%20fill%3D%27hsl%28208%2C70%25%2C35%25%29%27/%3E%0A%20%20%3Ctext%20x%3D%2750%25%27%20y%3D%2752%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2732%27%20fill%3D%27white%27%20font-weight%3D%27700%27%3ESL%3C/text%3E%0A%3C/svg%3E" alt="Avatar Sarah L."></span>
+              <div>
+                <div class="author" itemprop="author">Sarah L.</div>
+                <div class="rating-line"><span class="star">★</span>5 / 5 • <span style="color:var(--muted)">il y a 1 mois</span></div>
+              </div>
             </div>
             <p style="color:var(--muted)" itemprop="reviewBody">“Très bonne expérience, véhicule conforme et livraison dans les temps.”</p>
-            <p><strong itemprop="author">Sarah L.</strong> — Google</p>
           </div>
+        
+
           <div class="card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-            <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
-              <span class="price" itemprop="ratingValue">4</span>★
+            <div class="review-header">
+              <span class="avatar"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2780%27%20height%3D%2780%27%3E%0A%20%20%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20rx%3D%2740%27%20ry%3D%2740%27%20fill%3D%27hsl%28300%2C70%25%2C35%25%29%27/%3E%0A%20%20%3Ctext%20x%3D%2750%25%27%20y%3D%2752%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2732%27%20fill%3D%27white%27%20font-weight%3D%27700%27%3EHM%3C/text%3E%0A%3C/svg%3E" alt="Avatar Hugo M."></span>
+              <div>
+                <div class="author" itemprop="author">Hugo M.</div>
+                <div class="rating-line"><span class="star">★</span>4 / 5 • <span style="color:var(--muted)">il y a 3 mois</span></div>
+              </div>
             </div>
             <p style="color:var(--muted)" itemprop="reviewBody">“Bon rapport qualité/prix, je recommande SQR pour un achat serein.”</p>
-            <p><strong itemprop="author">Hugo M.</strong> — Google</p>
           </div>
+        
         </div>
         <div style="margin-top:16px">
           <a class="pill" href="https://www.google.com/search?sa=X&sca_esv=7ebae87ec67bf7ae&tbm=lcl&sxsrf=AE3TifOjeN0Jza0qbtDFCFflpxmdHQ7Bvg:1756801926903&q=Sur+Quatre+Roues+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2MzYwNTI1MzM2NrQwNja1MLQw2MDI-IpRNLi0SCGwNLGkKFUhKL80tVjBsSyzeBErdnEAK7dK8koAAAA&rldimm=6305256633183358180&hl=fr-FR&ved=2ahUKEwjjlqyW1bmPAxU8UaQEHZMOIIYQ9fQKegQIXhAF&biw=1920&bih=901&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer">⭐ Voir tous les avis sur Google</a>
@@ -146,16 +143,8 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     const btn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if(document.documentElement.scrollTop > 300){
-        btn.style.display = 'flex';
-      } else {
-        btn.style.display = 'none';
-      }
-    });
-    btn.addEventListener('click', () => {
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
+    window.addEventListener('scroll', () => { btn.style.display = (document.documentElement.scrollTop > 300) ? 'flex' : 'none'; });
+    btn.addEventListener('click', () => { window.scrollTo({top:0, behavior:'smooth'}); });
   </script>
 </body>
 </html>
