@@ -26,7 +26,6 @@
     footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
     #backToTop{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);font-size:18px;display:none;align-items:center;justify-content:center;width:44px;height:44px;}
     #backToTop:hover{background:var(--accent);color:var(--bg)}
-
     /* Avis */
     .review-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:#222}
@@ -85,6 +84,67 @@
             <p>Année 2019 • 55 000 km • Essence</p>
             <a class="btn" href="contact.html">En savoir plus</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <h2>Nos services</h2>
+        <p class="section-sub">Des solutions complètes pour acheter en toute sérénité</p>
+        <div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="rgba(102,229,208,.15)"/><path d="M10 26h28v4a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4v-4zm4-8h6l3-3h8l3 3h4a4 4 0 0 1 4 4v4H6v-4a4 4 0 0 1 4-4z" fill="#66e5d0"/></svg>
+              <h3 style="margin:0">Reprise de votre véhicule</h3>
+            </div>
+            <p style="color:var(--muted)">Estimation rapide et transparente, avec possibilité d’apport pour votre prochain achat.</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Estimation sur place ou à distance</li>
+              <li>Démarches administratives prises en charge</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="rgba(26,92,181,.15)"/><path d="M12 20h24v16H12z" fill="#1a5cb5"/><path d="M16 16h16v4H16z" fill="#1a5cb5"/><path d="M20 26h8v4h-8z" fill="#fff" opacity=".8"/></svg>
+              <h3 style="margin:0">Financement</h3>
+            </div>
+            <p style="color:var(--muted)">Solutions flexibles adaptées à votre budget (crédit classique, LOA selon partenaires).</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Réponse rapide</li>
+              <li>Taux compétitifs via nos partenaires</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="rgba(255,255,255,.12)"/><path d="M24 10l14 8v12c0 5.523-6.268 8-14 8s-14-2.477-14-8V18l14-8z" fill="#e9eefc"/><path d="M20 26l3 3 6-6" stroke="#1a5cb5" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h3 style="margin:0">Garantie & révision</h3>
+            </div>
+            <p style="color:var(--muted)">Véhicules contrôlés et révisés, avec extension de garantie possible jusqu’à 24 mois.</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Contrôle 100+ points</li>
+              <li>Garantie nationale selon contrat</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="rgba(255,213,79,.18)"/><path d="M8 28h32v6a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4v-6z" fill="#ffd54f"/><path d="M12 22h8l2-2h12l2 2h4v6H8v-4a2 2 0 0 1 2-2z" fill="#c9a93a"/><path d="M30 18h6v4h-6z" fill="#ffd54f"/></svg>
+              <h3 style="margin:0">Livraison & immatriculation</h3>
+            </div>
+            <p style="color:var(--muted)">Plaques provisoires, carte grise, et livraison possible selon distance et disponibilité.</p>
+            <ul style="margin:0;color:var(--muted)">
+              <li>Dossier carte grise</li>
+              <li>Options de livraison</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+          <a class="btn" href="contact.html">Demander une offre</a>
+          <a class="pill" href="contact.html">💬 Parler à un conseiller</a>
         </div>
       </div>
     </section>
