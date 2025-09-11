@@ -595,9 +595,16 @@ header.scrolled{
         if(parts[1]){
           km = parseInt(parts[1].replace(/[^0-9]/g,''),10) || 0;
         }
-        if(parts[2]){
-          fuel = parts[2];
+        \1
+        // Gearbox detection: prefer data-gear attribute; fallback to keywords in text
+        let gear = (card.getAttribute('data-gear')||'').toLowerCase();
+        const txt = (title + ' ' + specText).toLowerCase();
+        if(!gear){
+          if(txt.includes('auto') || txt.includes('automatique') || txt.includes('dsg') || txt.includes('bva')) gear = 'auto';
+          else if(txt.includes('manuelle') || txt.includes('bvm')) gear = 'manuelle';
         }
+        card.dataset.gear = gear;
+
         card.dataset.price = String(price);
         card.dataset.year = String(year);
         card.dataset.km = String(km);
@@ -614,6 +621,8 @@ header.scrolled{
       const year = document.getElementById('year');
       const price = document.getElementById('price');
       const sort = document.getElementById('sort');
+      const kmmax = document.getElementById('kmmax');
+      const gear = document.getElementById('gear');
       const resetBtn = document.getElementById('resetFilters');
       const chips = document.getElementById('activeChips');
       const resultsCount = document.getElementById('resultsCount');
@@ -623,6 +632,8 @@ header.scrolled{
         const fv = fuel.value;
         const yv = parseInt(year.value||'0',10) || 0;
         const pv = parseInt(price.value||'0',10) || 0;
+        const kv = parseInt(kmmax.value||'0',10) || 0;
+        const gv = (gear.value||'').toLowerCase();
 
         let shown = 0;
         cards.forEach(c => {
@@ -631,7 +642,9 @@ header.scrolled{
           const matchFuel = !fv || c.dataset.fuel === fv;
           const matchYear = !yv || (parseInt(c.dataset.year,10) || 0) >= yv;
           const matchPrice = !pv || (parseInt(c.dataset.price,10) || 0) <= pv;
-          const ok = matchQ && matchFuel && matchYear && matchPrice;
+          const matchKm = !kv || (parseInt(c.dataset.km,10) || 0) <= kv;
+          const matchGear = !gv || (c.dataset.gear||"") === gv;
+          const ok = matchQ && matchFuel && matchYear && matchPrice && matchKm && matchGear;
           c.classList.toggle('hide', !ok);
           if(ok) shown++;
         });
@@ -656,6 +669,8 @@ header.scrolled{
         if(fv) chipDefs.push({k:'fuel',label:'Énergie: ' + fv});
         if(yv) chipDefs.push({k:'year',label:'Année ≥ ' + yv});
         if(pv) chipDefs.push({k:'price',label:'Prix ≤ ' + new Intl.NumberFormat('fr-FR').format(pv) + ' €'});
+        if(kv) chipDefs.push({k:'km',label:'Km ≤ ' + new Intl.NumberFormat('fr-FR').format(kv) + ' km'});
+        if(gv) chipDefs.push({k:'gear',label:'Boîte: ' + (gv==='auto'?'Automatique':'Manuelle')});
 
         chipDefs.forEach(def => {
           const c = document.createElement('span');
@@ -665,7 +680,7 @@ header.scrolled{
             if(def.k==='q') q.value='';
             if(def.k==='fuel') fuel.value='';
             if(def.k==='year') year.value='';
-            if(def.k==='price') price.value='';
+            if(def.k==='price') price.value=''; if(def.k==='km') kmmax.value=''; if(def.k==='gear') gear.value='';
             apply();
           });
           chips.appendChild(c);
@@ -687,9 +702,9 @@ header.scrolled{
       }
 
       // Events
-      [q,fuel,year,price,sort].forEach(el => el && el.addEventListener('input', apply));
+      [q,fuel,year,price,sort,kmmax,gear].forEach(el => el && el.addEventListener('input', apply));
       resetBtn.addEventListener('click', ()=>{
-        q.value=''; fuel.value=''; year.value=''; price.value=''; sort.value='';
+        q.value=''; fuel.value=''; year.value=''; price.value=''; kmmax.value=''; gear.value=''; sort.value='';
         apply();
       });
 
