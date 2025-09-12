@@ -32,13 +32,6 @@ section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:#a9b4d0;margin-b
 .lightbox-content img{max-width:80vw;max-height:86vh;border-radius:12px;display:block}.lightbox-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
 .lightbox-close{position:absolute;top:-12px;right:-12px;background:#111;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer}
 .build-stamp{position:fixed;right:12px;bottom:12px;background:#1a5cb5;color:#fff;padding:6px 10px;border-radius:10px;z-index:99999;font-size:12px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-
-/* Debug bar */
-.debugbar{position:sticky;top:74px;background:#202840;color:#e9eefc;border:1px solid rgba(255,255,255,.1);padding:10px;border-radius:10px;margin:12px 0;display:none}
-.debugbar.active{display:block}
-.debugbar small{color:#a9b4d0}
-.debug-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.debug-item{background:#11162a;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 8px;font-size:.85rem}
 </style>
 </head>
 <body>
@@ -59,9 +52,6 @@ section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:#a9b4d0;margin-b
     <h2>Nos véhicules disponibles</h2>
     <p class="section-sub">Découvrez notre sélection du moment</p>
 
-    <!-- DEBUG BAR (affichée avec ?debug=1) -->
-    <div id="debugbar" class="debugbar"></div>
-
     <div id="filters">
       <div class="filters-row">
         <div class="input"><label for="q">Recherche</label><input id="q" type="search" placeholder="modèle, motorisation…"></div>
@@ -78,78 +68,7 @@ section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:#a9b4d0;margin-b
       <div class="muted small" style="margin-top:6px">🔧 Filtres v2 activés (Km max + Boîte)</div>
     </div>
 
-    <div class="gallery">
-      <!-- Liste élargie (~14 véhicules) -->
-      <div class="card" data-title="Fiat Punto 1.2 ELX" data-price="3490" data-year="2000" data-km="151500" data-fuel="Essence" data-gear="manuelle">
-        <img src="Fiat Punto 1.2 ELX.jpg" alt="Fiat Punto 1.2 ELX">
-        <h3>Fiat Punto 1.2 ELX</h3><p class="price">3 490 €</p><p>2000 • 151 500 km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Renault Twingo 2 1.5 DCI" data-price="6900" data-year="2013" data-km="123400" data-fuel="Diesel" data-gear="manuelle" data-badges="heart">
-        <img src="Twingo 2.jpg" alt="Renault Twingo 2 1.5 DCI" data-gallery="Twingo 2.jpg|twingo 2 (2).jpg">
-        <h3>Renault Twingo 2 1.5 DCI</h3><p class="price">6 900 €</p><p>2013 • 123 400 km • Diesel</p>
-      </div>
-
-      <div class="card" data-title="Renault Twingo 3" data-price="8390" data-year="2018" data-km="76900" data-fuel="Essence" data-gear="manuelle" data-badges="heart">
-        <img src="Renault Twingo 3.jpg" alt="Renault Twingo 3">
-        <h3>Renault Twingo 3</h3><p class="price">8 390 €</p><p>2018 • 76 900 km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Toyota Hilux 2.5 D-4D 120ch" data-price="18900" data-year="2010" data-km="202000" data-fuel="Diesel" data-gear="manuelle" data-badges="rare">
-        <img src="Toyota Hilux 2.5 D-4D 120ch.jpg" alt="Toyota Hilux 2.5 D-4D 120ch" data-gallery="Toyota Hilux 2.5 D-4D 120ch.jpg|Toyota Hilux 2.5 D-4D 120ch (1).jpg|Toyota Hilux 2.5 D-4D 120ch (2).jpg">
-        <h3>Toyota Hilux 2.5 D-4D 120ch</h3><p class="price">18 900 €</p><p>2010 • 202 000 km • Diesel</p>
-      </div>
-
-      <div class="card" data-title="Peugeot 206 CC Quiksilver 1.6 16v 110ch" data-price="0" data-year="2003" data-km="0" data-fuel="Essence" data-gear="manuelle">
-        <img src="Peugeot 206 CC Quiksilver 1.6 16v 110ch.jpg" alt="Peugeot 206 CC Quiksilver 1.6 16v 110ch">
-        <h3>Peugeot 206 CC Quiksilver 1.6 16v 110ch</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2003 • — km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Hyundai i10 Clim" data-price="0" data-year="2012" data-km="0" data-fuel="Essence" data-gear="manuelle">
-        <img src="Hyundai i10 Clim.jpg" alt="Hyundai i10 Clim">
-        <h3>Hyundai i10 Clim</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2012 • — km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Audi A4 Cabriolet V6 3.0 S-Line Quattro" data-price="0" data-year="2004" data-km="0" data-fuel="Essence" data-gear="auto">
-        <img src="Audi A4 Cabriolet V6 3.0 S-Line Quattro.jpg" alt="Audi A4 Cabriolet V6 3.0 S-Line Quattro">
-        <h3>Audi A4 Cabriolet V6 3.0 S-Line Quattro</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2004 • — km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Mercedes C200 CDI 2.2 16v 122ch" data-price="0" data-year="2010" data-km="0" data-fuel="Diesel" data-gear="auto">
-        <img src="Mercedes C200 CDI 2.2 16v 122ch.jpg" alt="Mercedes C200 CDI 2.2 16v 122ch">
-        <h3>Mercedes C200 CDI 2.2 16v 122ch</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2010 • — km • Diesel</p>
-      </div>
-
-      <div class="card" data-title="Renault Mégane 1.5 dCi 110ch G-Line" data-price="0" data-year="2011" data-km="0" data-fuel="Diesel" data-gear="manuelle">
-        <img src="Renault Mégane 1.5 dCi 110ch G-Line.jpg" alt="Renault Mégane 1.5 dCi 110ch G-Line">
-        <h3>Renault Mégane 1.5 dCi 110ch G-Line</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2011 • — km • Diesel</p>
-      </div>
-
-      <div class="card" data-title="Fiat Panda 1.2" data-price="0" data-year="2012" data-km="0" data-fuel="Essence" data-gear="manuelle">
-        <img src="Fiat Panda 1.2.jpg" alt="Fiat Panda 1.2">
-        <h3>Fiat Panda 1.2</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2012 • — km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Mini Cooper SD" data-price="0" data-year="2012" data-km="0" data-fuel="Diesel" data-gear="manuelle">
-        <img src="Mini Cooper SD.jpg" alt="Mini Cooper SD">
-        <h3>Mini Cooper SD</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2012 • — km • Diesel</p>
-      </div>
-
-      <div class="card" data-title="Citroën DS3 VTi 120 1.6" data-price="0" data-year="2011" data-km="0" data-fuel="Essence" data-gear="manuelle">
-        <img src="Citroën DS3 VTi 120 1.6.jpg" alt="Citroën DS3 VTi 120 1.6">
-        <h3>Citroën DS3 VTi 120 1.6</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2011 • — km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Volkswagen up! 1.0 60ch" data-price="0" data-year="2013" data-km="0" data-fuel="Essence" data-gear="manuelle">
-        <img src="Volkswagen up! 1.0 60ch.jpg" alt="Volkswagen up! 1.0 60ch">
-        <h3>Volkswagen up! 1.0 60ch</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2013 • — km • Essence</p>
-      </div>
-
-      <div class="card" data-title="Mercedes Vito CDI 114" data-price="0" data-year="2016" data-km="0" data-fuel="Diesel" data-gear="manuelle">
-        <img src="mercedes vito.jpg" alt="Mercedes Vito CDI 114" data-gallery="mercedes vito.jpg|vito.jpg">
-        <h3>Mercedes Vito CDI 114</h3><p class="price" style="color:#a9b4d0">Prix sur demande</p><p>2016 • — km • Diesel</p>
-      </div>
-    </div>
+    <div id="gallery" class="gallery"></div>
   </section>
 
   <section id="services" class="container">
@@ -173,25 +92,62 @@ section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:#a9b4d0;margin-b
   </div>
 </div>
 
-<div class="build-stamp">Build: Catalogue complet + debug • 2025-09-12 08:10:08 UTC</div>
+<div class="build-stamp">Build: Data-driven FULL • 2025-09-12 10:06:18 UTC</div>
 
 <script>
-// Inject badges
-(function(){
+async function loadVehicles(){
+  const res = await fetch('vehicles.json?ts=' + Date.now());
+  const data = await res.json();
+  const g = document.getElementById('gallery');
+  g.innerHTML = '';
+  data.forEach(v=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.title = v.title;
+    card.dataset.price = v.price||0;
+    card.dataset.year = v.year||0;
+    card.dataset.km = v.km||0;
+    card.dataset.fuel = v.fuel||'';
+    card.dataset.gear = v.gear||'';
+    if (v.badges && v.badges.length) card.setAttribute('data-badges', v.badges.join(','));
+
+    const img = document.createElement('img');
+    img.src = v.img;
+    img.alt = v.title;
+    if (v.gallery && v.gallery.length) img.setAttribute('data-gallery', v.gallery.join('|'));
+    card.appendChild(img);
+
+    const h3 = document.createElement('h3'); h3.textContent = v.title; card.appendChild(h3);
+
+    const price = document.createElement('p'); price.className='price';
+    if(v.price>0) price.textContent = new Intl.NumberFormat('fr-FR').format(v.price)+' €';
+    else { price.textContent = 'Prix sur demande'; price.style.color='#a9b4d0'; }
+    card.appendChild(price);
+
+    const p = document.createElement('p');
+    p.textContent = (v.year||'—') + ' • ' + (v.km? new Intl.NumberFormat('fr-FR').format(v.km)+' km' : '— km') + ' • ' + (v.fuel||'—');
+    card.appendChild(p);
+
+    g.appendChild(card);
+  });
+
+  // Inject badges
   const map={'heart':()=>{const s=document.createElement('span');s.className='badge coupdecoeur';s.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';return s;},'rare':()=>{const s=document.createElement('span');s.className='badge rare';s.textContent='Rare';return s;}};
   document.querySelectorAll('.card').forEach(c=>{const b=(c.getAttribute('data-badges')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);b.forEach(k=>{if(map[k]) c.insertBefore(map[k](),c.firstElementChild);});});
-})();
 
-// Filtres
-(function(){
-  const gallery=document.querySelector('.gallery');const cards=[...gallery.querySelectorAll('.card')];
+  initFilters();
+}
+
+function initFilters(){
+  const gallery=document.getElementById('gallery');const cards=[...gallery.querySelectorAll('.card')];
   const q=document.getElementById('q'),fuel=document.getElementById('fuel'),year=document.getElementById('year'),kmmax=document.getElementById('kmmax'),price=document.getElementById('price'),gear=document.getElementById('gear'),sort=document.getElementById('sort'),chips=document.getElementById('activeChips'),resetBtn=document.getElementById('resetFilters'),resultsCount=document.getElementById('resultsCount');
   function apply(){const qv=(q.value||'').toLowerCase().trim();const fv=fuel.value;const yv=parseInt(year.value||'0',10)||0;const kv=parseInt(kmmax.value||'0',10)||0;const pv=parseInt(price.value||'0',10)||0;const gv=(gear.value||'').toLowerCase();let shown=0;
     cards.forEach(c=>{const matchQ=!qv||(c.dataset.title||'').toLowerCase().includes(qv);const matchFuel=!fv||c.dataset.fuel===fv;const matchYear=!yv||(c.dataset.year|0)>=yv;const matchKm=!kv||(c.dataset.km|0)<=kv;const matchPrice=!pv||(c.dataset.price|0)<=pv;const matchGear=!gv||(c.dataset.gear||'')===gv;const ok=matchQ&&matchFuel&&matchYear&&matchKm&&matchPrice&&matchGear;c.classList.toggle('hide',!ok);if(ok) shown++;});
     const visible=cards.filter(c=>!c.classList.contains('hide'));const cmp={'price-asc':(a,b)=>(a.dataset.price|0)-(b.dataset.price|0),'price-desc':(a,b)=>(b.dataset.price|0)-(a.dataset.price|0),'year-desc':(a,b)=>(b.dataset.year|0)-(a.dataset.year|0),'km-asc':(a,b)=>(a.dataset.km|0)-(b.dataset.km|0)}[sort.value||''];if(cmp) visible.sort(cmp).forEach(el=>gallery.appendChild(el));
     chips.innerHTML='';const defs=[];if(qv) defs.push({k:'q',label:'Recherche: '+q.value});if(fv) defs.push({k:'fuel',label:'Énergie: '+fv});if(yv) defs.push({k:'year',label:'Année ≥ '+yv});if(kv) defs.push({k:'km',label:'Km ≤ '+new Intl.NumberFormat('fr-FR').format(kv)+' km'});if(pv) defs.push({k:'price',label:'Prix ≤ '+new Intl.NumberFormat('fr-FR').format(pv)+' €'});if(gv) defs.push({k:'gear',label:'Boîte: '+(gv==='auto'?'Automatique':'Manuelle')});defs.forEach(def=>{const chip=document.createElement('span');chip.className='chip';chip.innerHTML=def.label+' <button>×</button>';chip.querySelector('button').addEventListener('click',()=>{if(def.k==='q') q.value='';if(def.k==='fuel') fuel.value='';if(def.k==='year') year.value='';if(def.k==='km') kmmax.value='';if(def.k==='price') price.value='';if(def.k==='gear') gear.value='';apply();});chips.appendChild(chip);});
     resultsCount.textContent=shown+' véhicule'+(shown>1?'s':'')+' trouvé'+(shown>1?'s':'');}
-  ;[q,fuel,year,kmmax,price,gear,sort].forEach(el=>el&&el.addEventListener('input',apply));resetBtn&&resetBtn.addEventListener('click',()=>{q.value='';fuel.value='';year.value='';kmmax.value='';price.value='';gear.value='';sort.value='';apply();});apply();})();
+  ;[q,fuel,year,kmmax,price,gear,sort].forEach(el=>el&&el.addEventListener('input',apply));resetBtn&&resetBtn.addEventListener('click',()=>{q.value='';fuel.value='';year.value='';kmmax.value='';price.value='';gear.value='';sort.value='';apply();});apply();
+}
 
 // Lightbox
 (function(){
@@ -205,19 +161,7 @@ section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:#a9b4d0;margin-b
   document.addEventListener('keydown',e=>{if(!lb.classList.contains('active')) return;if(e.key==='Escape') closeLB();if(e.key==='ArrowLeft') nav(-1);if(e.key==='ArrowRight') nav(1);});
 })();
 
-// DEBUG: afficher le nombre de cartes si ?debug=1
-(function(){
-  const params=new URLSearchParams(location.search);
-  if(params.get('debug')!=='1') return;
-  const bar=document.getElementById('debugbar');
-  const cards=[...document.querySelectorAll('.gallery .card')];
-  const count=cards.length;
-  const list=cards.map(c=>c.dataset.title||c.querySelector('h3')?.textContent?.trim()||'').filter(Boolean);
-  bar.classList.add('active');
-  bar.innerHTML='<strong>Debug:</strong> '+count+' carte'+(count>1?'s':'')+' détectée'+(count>1?'s':'')+
-                '<div class="debug-list">'+list.map(t=>'<span class="debug-item">'+t+'</span>').join('')+'</div>'+
-                '<small>Build 2025-09-12 08:10:08 UTC</small>';
-})();
+loadVehicles();
 </script>
 </body>
 </html>
