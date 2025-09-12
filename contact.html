@@ -1,133 +1,38 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact - SQR</title>
-  <meta name="description" content="Coordonnées et informations de contact de SQR - Sur Quatre Roues." />
-  <link rel="icon" type="image/jpeg" href="logo-sqr.jpg">
-  <style>
-    :root{ --bg:#0b0f1a; --bg-soft:#12182a; --text:#e9eefc; --muted:#a9b4d0; --brand:#1a5cb5; --accent:#66e5d0; --radius:20px; --shadow:0 10px 30px rgba(0,0,0,.25); }
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:inherit}
-    .container{max-width:900px;margin:0 auto;padding:0 20px}
-    header{background:var(--bg-soft);padding:20px 0;box-shadow:var(--shadow)}
-    .nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-    .brand img{height:60px;width:auto;vertical-align:middle;margin-right:8px}
-    .brand{display:flex;align-items:center;font-weight:bold;font-size:1.1em}
-    .menu{display:flex;gap:20px;align-items:center}
-    .btn{background:var(--brand);color:#fff;padding:10px 16px;border-radius:var(--radius)}
-    section{padding:40px 0}
-    h1,h2{margin-bottom:15px}
-    .contact-info{background:var(--bg-soft);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow)}
-    .contact-info p{margin:8px 0;color:var(--muted)}
-    .actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-    .google-review-btn{ display:inline-block;background:#ffd54f;color:#111; padding:12px 16px;border-radius:999px;font-weight:700; box-shadow:var(--shadow); }
-    .google-review-btn:hover{filter:brightness(0.95)}
-    iframe{border-radius:var(--radius);border:none;width:100%;height:300px;margin-top:20px}
-    footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
-    .back-home{ position:fixed;left:50%;transform:translateX(-50%); bottom:16px;z-index:99;background:var(--brand);color:#fff; padding:12px 18px;border-radius:999px;box-shadow:var(--shadow);font-weight:700; }
-    .back-home:hover{background:#154a91}
-  
-header{position:sticky;top:0;z-index:1000}
-body{scroll-padding-top:100px}
-
-
-/* Effet visuel du header au scroll */
-header.scrolled{
-  background: rgba(18, 24, 42, 0.92) !important; /* var(--bg-soft) avec opacité */
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  backdrop-filter: blur(6px);
-}
-
-
-/* Highlight temporaire de la section Avis */
-@keyframes avisPulse {
-  0% { box-shadow: 0 0 0 0 rgba(102,229,208,0.0); background: transparent; }
-  20% { box-shadow: 0 0 0 6px rgba(102,229,208,0.25); background: rgba(102,229,208,0.06); }
-  60% { box-shadow: 0 0 0 2px rgba(102,229,208,0.18); background: rgba(102,229,208,0.04); }
-  100% { box-shadow: 0 0 0 0 rgba(102,229,208,0.0); background: transparent; }
-}
-.section-highlight {
-  animation: avisPulse 2.2s ease-out 1;
-  transition: background .6s ease, box-shadow .6s ease;
-  border-radius: 12px;
-}
-
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — SQR</title>
+<link rel="icon" href="logo-sqr.jpg">
+<style>
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b0f1a;color:#e9eefc}
+.container{max-width:900px;margin:0 auto;padding:20px}
+header{position:sticky;top:0;background:rgba(18,24,42,.9);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700}
+.brand img{height:46px}
+.menu a{margin-left:18px;color:#e9eefc;text-decoration:none;opacity:.9}
+.menu a:hover{opacity:1}
+.card{background:#12182a;border-radius:16px;padding:16px;margin-top:20px}
+label{display:block;margin-top:10px}
+input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0e1322;color:#e9eefc}
+button{margin-top:14px;background:#1a5cb5;border:0;border-radius:999px;padding:10px 14px;color:#fff}
 </style>
-</head>
-<body>
-  <header>
-    <div class="container nav">
-      <a href="index.html" class="brand"><img src="logo-sqr.jpg" alt="Logo SQR - Sur Quatre Roues"> Sur Quatre Roues</a>
-      <nav class="menu">
-        <a href="index.html#catalogue">Nos véhicules</a>
-        <a href="index.html#services">Nos services</a>
-        <a href="index.html#avis">Avis clients</a>
-        <a class="btn" href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <section class="container">
-      <h1>Contactez-nous</h1>
-      <div class="contact-info">
-        <h2>Coordonnées</h2>
-        <p><strong>Entreprise :</strong> Sur Quatre Roues</p>
-        <p><strong>Activité :</strong> Concessionnaire de véhicules de loisirs</p>
-        <p><strong>Adresse :</strong> 821 Rte de Pertuis, 84240 La Bastide-des-Jourdans</p>
-        <p><strong>Téléphone :</strong> <a href="tel:+33624715825">06 24 71 58 25</a></p>
-        <p><strong>Email :</strong> <a href="mailto:surquatreroues@gmail.com">surquatreroues@gmail.com</a></p>
-        <p><strong>Horaires :</strong> Lundi - Samedi : 9h00 - 18h00</p>
-        <div class="actions">
-          <a class="google-review-btn" href="https://www.google.com/search?sa=X&sca_esv=7ebae87ec67bf7ae&tbm=lcl&sxsrf=AE3TifOjeN0Jza0qbtDFCFflpxmdHQ7Bvg:1756801926903&q=Sur+Quatre+Roues+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2MzYwNTI1MzM2NrQwNja1MLQw2MDI-IpRNLi0SCGwNLGkKFUhKL80tVjBsSyzeBErdnEAK7dK8koAAAA&rldimm=6305256633183358180&hl=fr-FR&ved=2ahUKEwjjlqyW1bmPAxU8UaQEHZMOIIYQ9fQKegQIXhAF&biw=1920&bih=901&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer">⭐ Laisser un avis Google</a>
-        </div>
-        <h2>Localisation</h2>
-        <iframe src="https://www.google.com/maps?q=821+Rte+de+Pertuis,+84240+La+Bastide-des-Jourdans&output=embed" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <div class="container">
-      © <span id="year"></span> SQR - Sur Quatre Roues. Tous droits réservés.
-    </div>
-  </footer>
-  <a class="back-home" href="index.html">⬅ Retour à l’accueil</a>
-
-
-
-
-  <script>
-    // Unified section highlight: works for #catalogue, #services, #avis
-    (function(){
-      const targets = ['#catalogue', '#services', '#avis'];
-      function pulseSel(sel){
-        const el = document.querySelector(sel + ' .container') || document.querySelector(sel);
-        if(!el) return;
-        el.classList.add('section-highlight');
-        setTimeout(()=> el.classList.remove('section-highlight'), 2300);
-      }
-      function maybePulseFromHash(){
-        const h = location.hash;
-        if(targets.includes(h)) setTimeout(()=> pulseSel(h), 100);
-      }
-      // on load
-      maybePulseFromHash();
-      // on hashchange
-      window.addEventListener('hashchange', maybePulseFromHash);
-      // on header clicks (anchors to our targets)
-      document.addEventListener('click', (e)=>{
-        const a = e.target.closest('a[href]');
-        if(!a) return;
-        const href = a.getAttribute('href') || '';
-        const hash = href.includes('#') ? '#' + href.split('#').pop() : '';
-        if(targets.includes(hash)){
-          setTimeout(()=> pulseSel(hash), 450);
-        }
-      });
-    })();
-  </script>
-
-</body>
-</html>
+</head><body>
+<header><div class="container nav">
+  <a class="brand" href="index.html"><img src="logo-sqr.jpg" alt=""> Sur Quatre Roues</a>
+  <nav class="menu"><a href="index.html#catalogue">Nos véhicules</a><a href="index.html#services">Nos services</a><a href="index.html#avis">Avis clients</a></nav>
+</div></header>
+<main class="container">
+  <h1>Contact</h1>
+  <div class="card">
+    <form action="https://formsubmit.co/surquatreroues@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <label>Nom <input required name="nom"></label>
+      <label>Email <input required type="email" name="email"></label>
+      <label>Téléphone <input name="tel"></label>
+      <label>Message <textarea rows="5" name="message"></textarea></label>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+</main>
+</body></html>

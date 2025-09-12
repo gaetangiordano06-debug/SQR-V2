@@ -1,718 +1,153 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SQR - Sur Quatre Roues</title>
-  <meta name="description" content="SQR - Sur Quatre Roues, spécialiste de la revente de véhicules d'occasion de qualité." />
-  <link rel="icon" type="image/jpeg" href="logo-sqr.jpg">
-  <style>
-    :root{ --bg:#0b0f1a; --bg-soft:#12182a; --text:#e9eefc; --muted:#a9b4d0; --brand:#1a5cb5; --accent:#66e5d0; --radius:20px; --shadow:0 10px 30px rgba(0,0,0,.25); }
-    html{scroll-behavior:smooth} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:inherit} .container{max-width:1200px;margin:0 auto;padding:0 20px}
-    header{background:var(--bg-soft);padding:20px 0;box-shadow:var(--shadow)}
-    .nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-    .brand img{height:60px;width:auto;vertical-align:middle;margin-right:8px} .brand{display:flex;align-items:center;font-weight:bold;font-size:1.1em}
-    .menu{display:flex;gap:20px;align-items:center} .btn{background:var(--brand);color:#fff;padding:10px 16px;border-radius:var(--radius)}
-    .hero{padding:50px 0;display:flex;flex-direction:column;gap:20px;align-items:flex-start;text-align:left} .pill{background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:999px}
-    section{padding:50px 0} h2{margin-bottom:10px} .section-sub{color:var(--muted);margin-bottom:30px}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .card{background:var(--bg-soft);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column}
-    .card img{border-radius:var(--radius);margin-bottom:10px;object-fit:cover;aspect-ratio:16/9}
-    /* Hover zoom on vehicle cards */
-    #catalogue .card{overflow:hidden}
-    #catalogue .card img{
-      transform:scale(1);
-      transition:transform .35s ease, box-shadow .35s ease;
-      will-change:transform;
-    }
-    
-    /* Lightbox */
-    .lightbox-backdrop{
-      position:fixed;inset:0;background:rgba(0,0,0,.8);
-      display:none;align-items:center;justify-content:center;z-index:9999;
-      padding:24px;
-    }
-    .lightbox-backdrop.active{display:flex}
-    .lightbox-content{max-width:92vw;max-height:86vh;position:relative}
-    .lightbox-content img{max-width:100%;max-height:86vh;border-radius:12px;display:block}
-    .lightbox-close{
-      position:absolute;top:-12px;right:-12px;background:#111;border:1px solid rgba(255,255,255,.2);
-      color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer
-    }
-
-    #catalogue .card:hover img{
-      transform:scale(1.06);
-      box-shadow:0 10px 25px rgba(0,0,0,.35);
-      cursor:zoom-in;
-    }
-
-    .price{color:var(--accent);font-weight:bold;font-size:1.2em;margin:8px 0}
-    .filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 22px}
-    .filters input[type="number"], .filters input[type="text"], .filters select{
-      background:#0f1526;color:#e9eefc;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;min-width:160px
-    }
-    .filters label{font-size:.9em;color:var(--muted)}
-    .filters .btn-clear{background:transparent;border:1px solid rgba(255,255,255,.2);color:#e9eefc;padding:8px 12px;border-radius:10px}
-    .card{position:relative}
-    .badge{position:absolute;top:12px;left:12px;background:#ffd54f;color:#111;font-weight:700;font-size:.8em;padding:6px 10px;border-radius:999px;box-shadow:var(--shadow)}
-    .badge.reserved{background:#ffb74d}
-    .badge.sold{background:#ef5350;color:#fff}
-    .badge.coupdecoeur{background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%}
-    .badge.coupdecoeur svg{width:16px;height:16px;fill:#fff}
-    /* Badges supplémentaires */
-    .badge.new{background:#8ae234;color:#111;padding:4px 8px;border-radius:12px;font-size:.75em;font-weight:800;letter-spacing:.3px}
-    .badge.sold{background:#ef5350;color:#fff;padding:4px 8px;border-radius:12px;font-size:.75em;font-weight:800;letter-spacing:.3px}
-
-    .badge.rare{background:purple;color:#fff;padding:4px 8px;border-radius:12px;font-size:0.75em;font-weight:bold}
-
-    .badge.coupdecoeur{background:#e53935;color:#fff;display:flex;align-items:center;gap:4px}
-    .badge.coupdecoeur svg{width:14px;height:14px;fill:#fff}
-    
-
-    footer{text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--muted)}
-    #backToTop{position:fixed;bottom:20px;right:20px;z-index:99;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);font-size:18px;display:none;align-items:center;justify-content:center;width:44px;height:44px;} #backToTop:hover{background:var(--accent);color:var(--bg)}
-    .review-header{display:flex;align-items:center;gap:10px;margin-bottom:8px} .avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:#222}
-    .avatar img{width:44px;height:44px;object-fit:cover;display:block} .author{font-weight:700} .rating-line{display:flex;align-items:center;gap:6px;margin:4px 0 8px} .star{color:#ffd54f}
-  
-    /* Lightbox nav buttons */
-    .lightbox-content{max-width:92vw;max-height:86vh;position:relative;display:flex;align-items:center;gap:16px}
-    .lightbox-content img{max-width:80vw;max-height:86vh;border-radius:12px;display:block}
-    .lightbox-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
-    .lightbox-nav:hover{background:rgba(255,255,255,.2)}
-
-
-/* Fix z-index: badges au-dessus des photos */
-#catalogue .card{ position:relative; overflow:hidden; }
-#catalogue .card img{ position:relative; z-index:1; }
-#catalogue .badge{ position:absolute; top:12px; left:12px; z-index:3; pointer-events:none; }
-
-
-header{position:sticky;top:0;z-index:1000}
-body{scroll-padding-top:100px}
-
-
-/* Effet visuel du header au scroll */
-header.scrolled{
-  background: rgba(18, 24, 42, 0.92) !important; /* var(--bg-soft) avec opacité */
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  backdrop-filter: blur(6px);
-}
-
-
-/* Highlight temporaire de la section Avis */
-@keyframes avisPulse {
-  0% { box-shadow: 0 0 0 0 rgba(102,229,208,0.0); background: transparent; }
-  20% { box-shadow: 0 0 0 6px rgba(102,229,208,0.25); background: rgba(102,229,208,0.06); }
-  60% { box-shadow: 0 0 0 2px rgba(102,229,208,0.18); background: rgba(102,229,208,0.04); }
-  100% { box-shadow: 0 0 0 0 rgba(102,229,208,0.0); background: transparent; }
-}
-.section-highlight {
-  animation: avisPulse 2.2s ease-out 1;
-  transition: background .6s ease, box-shadow .6s ease;
-  border-radius: 12px;
-}
-
-
-    /* Filtres modernes */
-    .filters{background:var(--bg-soft);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin:16px 0}
-    .filters-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
-    .input{position:relative;display:flex;align-items:center;background:#0e1322;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px 12px}
-    .input input{background:transparent;border:none;outline:none;color:var(--text);width:100%;font-size:0.95rem}
-    .input svg{width:18px;height:18px;opacity:.7;margin-right:8px}
-    .select{display:flex;flex-direction:column;gap:6px}
-    .select select{appearance:none;background:#0e1322;border:1px solid rgba(255,255,255,.08);color:var(--text);padding:10px 12px;border-radius:12px}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text);padding:10px 14px;border-radius:12px}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);padding:6px 10px;border-radius:999px;font-size:.85rem;display:flex;align-items:center;gap:6px}
-    .chip button{background:transparent;border:none;color:var(--text);cursor:pointer;opacity:.8}
-    .muted.small{color:var(--muted);font-size:.9rem;margin-top:8px}
-    /* Transition cards */
-    #catalogue .card{transition:transform .18s ease, opacity .18s ease;}
-    #catalogue .card.hide{opacity:.0;transform:scale(.98);pointer-events:none;position:relative}
-
-
-    /* Sticky filters */
-    @media (min-width: 900px){
-      #filters{ position:sticky; top:90px; z-index:5 }
-    }
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SQR – Sur Quatre Roues</title>
+<link rel="icon" href="logo-sqr.jpg">
+<style>
+:root{--bg:#0b0f1a;--bg-soft:#12182a;--text:#e9eefc;--muted:#a9b4d0;--brand:#1a5cb5;--accent:#66e5d0;--radius:16px;--shadow:0 8px 24px rgba(0,0,0,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{color:inherit;text-decoration:none}.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:100;background:rgba(18,24,42,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand img{height:52px;width:auto}
+.menu{display:flex;gap:22px;align-items:center}.menu a{opacity:.9}.menu a:hover{opacity:1}.btn{background:var(--brand);color:#fff;padding:10px 14px;border-radius:999px;border:0}
+section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:var(--muted);margin-bottom:16px}
+#filters{background:var(--bg-soft);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);position:sticky;top:82px;z-index:50;margin-bottom:18px}
+.filters-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
+.input,.select{display:flex;flex-direction:column;gap:6px}.input input,.select select{background:#0e1322;border:1px solid rgba(255,255,255,.1);color:var(--text);padding:10px 12px;border-radius:12px}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;font-size:.85rem;display:flex;gap:6px;align-items:center}
+.chip button{background:transparent;border:0;color:var(--text);cursor:pointer;opacity:.8}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:var(--bg-soft);border-radius:18px;padding:14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.card.hide{display:none}.card img{width:100%;height:180px;object-fit:cover;border-radius:14px;display:block;transition:transform .25s}.card:hover img{transform:scale(1.03)}
+.price{color:var(--accent);font-weight:800;margin:8px 0}
+.badge{position:absolute;top:12px;left:12px;z-index:3;pointer-events:none}
+.badge.coupdecoeur{background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%}
+.badge.coupdecoeur svg{width:16px;height:16px;fill:#fff}
+.badge.rare{background:purple;color:#fff;padding:4px 8px;border-radius:12px;font-size:.75rem;font-weight:700}
+.lightbox-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:24px}
+.lightbox-backdrop.active{display:flex}.lightbox-content{max-width:92vw;max-height:86vh;position:relative;display:flex;align-items:center;gap:16px}
+.lightbox-content img{max-width:80vw;max-height:86vh;border-radius:12px;display:block}.lightbox-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
+.lightbox-close{position:absolute;top:-12px;right:-12px;background:#111;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer}
+.build-stamp{position:fixed;right:12px;bottom:12px;background:#1a5cb5;color:#fff;padding:6px 10px;border-radius:10px;z-index:99999;font-size:12px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <a href="#" class="brand"><img src="logo-sqr.jpg" alt="Logo SQR - Sur Quatre Roues"> Sur Quatre Roues</a>
-      <nav class="menu">
-        <a href="#catalogue">Nos véhicules</a>
-        <a href="#services">Nos services</a>
-        <a href="#avis">Avis clients</a>
-        <a class="btn" href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-<section id="catalogue">
-      <div class="container">
-        <h2>Nos véhicules disponibles</h2>
-        <p class="section-sub">Découvre notre sélection de 11 véhicules</p>
-        <div class="filters" id="filters">
-          <label>Carburant
-            <select id="f-fuel">
-              <option value="">Tous</option>
-              <option value="Essence">Essence</option>
-              <option value="Diesel">Diesel</option>
-            </select>
-          </label>
-          <label>Prix max (€)
-            <input id="f-price" type="number" placeholder="ex : 10000" min="0" step="500">
-          </label>
-          <label>Recherche
-            <input id="f-search" type="text" placeholder="modèle, marque...">
-          </label>
-          <button class="btn-clear" id="f-clear" type="button">Effacer</button>
-        </div>
-        <div class="gallery">
-
-        
-
-          <div class="card" >
-            <img src="Fiat Punto 1.2 ELX.jpg" alt="Fiat Punto 1.2 ELX">
-            <h3>Fiat Punto 1.2 ELX</h3>
-            <p class="price">3 490 €</p>
-            <p>2000 • 151 500 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Peugeot 206 CC Quiksilver 1.6 16v 110ch.jpg" alt="Peugeot 206 CC Quiksilver 1.6 16v 110ch">
-            <h3>Peugeot 206 CC Quiksilver 1.6 16v 110ch</h3>
-            <p class="price">4 890 €</p>
-            <p>2006 • 155 000 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Hyundai i10 Clim.jpg" alt="Hyundai i10 Clim">
-            <h3>Hyundai i10 Clim</h3>
-            <p class="price">4 990 €</p>
-            <p>2008 • 150 000 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Audi A4 Cabriolet V6 3.0 S-Line Quattro.jpg" alt="Audi A4 Cabriolet V6 3.0 S-Line Quattro">
-            <h3>Audi A4 Cabriolet V6 3.0 S-Line Quattro</h3>
-            <p class="price">9 390 €</p>
-            <p>2007 • 255 000 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Mercedes C200 CDI 2.2 16v 122ch.jpg" alt="Mercedes C200 CDI 2.2 16v 122ch">
-            <h3>Mercedes C200 CDI 2.2 16v 122ch</h3>
-            <p class="price">5 990 €</p>
-            <p>2006 • 226 800 km • Diesel</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Renault Mégane 1.5 dCi 110ch G-Line.jpg" alt="Renault Mégane 1.5 dCi 110ch G-Line">
-            <h3>Renault Mégane 1.5 dCi 110ch G-Line</h3>
-            <p class="price">7 990 €</p>
-            <p>2012 • 144 900 km • Diesel</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card" data-badges="heart">
-            <img src="Renault Twingo 3.jpg" alt="Renault Twingo 3">
-            <h3>Renault Twingo 3</h3>
-            <p class="price">8 390 €</p>
-            <p>2018 • 76 900 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Fiat Panda 1.2.jpg" alt="Fiat Panda 1.2">
-            <h3>Fiat Panda 1.2</h3>
-            <p class="price">6 900 €</p>
-            <p>2014 • 64 500 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Provenance Belgique • Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Mini Cooper SD.jpg" alt="Mini Cooper SD">
-            <h3>Mini Cooper SD</h3>
-            <p class="price">9 990 €</p>
-            <p>2012 • 187 820 km • Diesel</p>
-            <p style="color:var(--muted);margin-top:6px">Moteur refait à neuf • Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Citroën DS3 VTi 120 1.6.jpg" alt="Citroën DS3 VTi 120 1.6">
-            <h3>Citroën DS3 VTi 120 1.6</h3>
-            <p class="price">6 990 €</p>
-            <p>2010 • 121 000 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-    
-
-          <div class="card">
-            <img src="Volkswagen up! 1.0 60ch.jpg" alt="Volkswagen up! 1.0 60ch">
-            <h3>Volkswagen up! 1.0 60ch</h3>
-            <p class="price">6 490 €</p>
-            <p>2017 • 81 000 km • Essence</p>
-            <p style="color:var(--muted);margin-top:6px">1ère MEC 12/2017 • Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-
-        
-    
-        
-          <div class="card" data-badges="rare">
-            <img src="Toyota Hilux 2.5 D-4D 120ch.jpg" alt="Toyota Hilux 2.5 D-4D 120ch" data-gallery="Toyota Hilux 2.5 D-4D 120ch.jpg|Toyota Hilux 2.5 D-4D 120ch (1).jpg|Toyota Hilux 2.5 D-4D 120ch (2).jpg">
-            <h3>Toyota Hilux 2.5 D-4D 120ch</h3>
-            <p class="price">18 900 €</p>
-            <p>2010 • 202 000 km • Diesel</p>
-            <p style="color:var(--muted);margin-top:6px">1ère MEC 07/2010 • Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-        
-          <div class="card" data-badges="heart">
-            <img src="Twingo 2.jpg" alt="Renault Twingo 2 1.5 DCI">
-            <h3>Renault Twingo 2 1.5 DCI</h3>
-            <p class="price">6 900 €</p>
-            <p>2013 • 123 400 km • Diesel</p>
-            <p style="color:var(--muted);margin-top:6px">1ère MEC 09/2013 • Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-        
-          <div class="card">
-            <img src="mercedes vito.jpg" alt="Mercedes Vito CDI 114" data-gallery="mercedes vito.jpg">
-            <h3>Mercedes Vito CDI 114</h3>
-            <p class="price">18 900 €</p>
-            <p>2017 • 86 000 km • Diesel</p>
-            <p style="color:var(--muted);margin-top:6px">1ère MEC 06/2017 • Garantie 12 mois</p>
-            <a class="btn" href="contact.html">En savoir plus</a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    
-    
-    
-    <section id="services">
-      <div class="container">
-        <h2>Nos services</h2>
-        <p class="section-sub">Des solutions complètes pour acheter en toute sérénité</p>
-        <div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
-
-          <div class="card">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
-                <circle cx="24" cy="24" r="22" fill="rgba(102,229,208,.15)"/>
-                <path d="M10 26h28v4a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4v-4zm4-8h6l3-3h8l3 3h4a4 4 0 0 1 4 4v4H6v-4a4 4 0 0 1 4-4z" fill="#66e5d0"/>
-              </svg>
-              <h3 style="margin:0">Reprise de votre véhicule</h3>
-            </div>
-            <p style="color:var(--muted)">Estimation rapide et transparente, avec possibilité d’apport pour votre prochain achat.</p>
-            <ul style="margin:0;color:var(--muted)">
-              <li>Estimation sur place ou à distance</li>
-              <li>Démarches administratives prises en charge</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
-                <circle cx="24" cy="24" r="22" fill="rgba(255,255,255,.12)"/>
-                <path d="M24 10l14 8v12c0 5.523-6.268 8-14 8s-14-2.477-14-8V18l14-8z" fill="#e9eefc"/>
-                <path d="M20 26l3 3 6-6" stroke="#1a5cb5" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <h3 style="margin:0">Garantie & révision</h3>
-            </div>
-            <p style="color:var(--muted)">Véhicules contrôlés et révisés, avec extension de garantie possible jusqu’à 24 mois.</p>
-            <ul style="margin:0;color:var(--muted)">
-              <li>Contrôle 100+ points</li>
-              <li>Garantie nationale selon contrat</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-              <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
-                <circle cx="24" cy="24" r="22" fill="rgba(255,213,79,.18)"/>
-                <path d="M8 28h32v6a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4v-6z" fill="#ffd54f"/>
-                <path d="M12 22h8l2-2h12l2 2h4v6H8v-4a2 2 0 0 1 2-2z" fill="#c9a93a"/>
-                <path d="M30 18h6v4h-6z" fill="#ffd54f"/>
-              </svg>
-              <h3 style="margin:0">Livraison & immatriculation</h3>
-            </div>
-            <p style="color:var(--muted)">Plaques provisoires, carte grise, et livraison possible selon distance et disponibilité.</p>
-            <ul style="margin:0;color:var(--muted)">
-              <li>Dossier carte grise</li>
-              <li>Options de livraison</li>
-            </ul>
-          </div>
-
-        </div>
-</div>
-    </section>
-
-
-
-
-    <!-- Avis clients (statiques avec avatars fournis) -->
-    <section id="avis">
-      <div class="container">
-        <h2>Avis clients</h2>
-        <p class="section-sub">Ce que nos clients disent de Sur Quatre Roues</p>
-        <div class="gallery">
-          <div class="card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-            <div class="review-header">
-              <span class="avatar"><img src="thomas.png" alt="Avatar Thomas P."></span>
-              <div>
-                <div class="author" itemprop="author">Thomas P.</div>
-                <div class="rating-line"><span class="star">★</span>5 / 5 • <span style="color:var(--muted)">il y a 2 semaines</span></div>
-              </div>
-            </div>
-            <p style="color:var(--muted)" itemprop="reviewBody">“Super accueil et véhicule impeccable. Démarches rapides et pro.”</p>
-          </div>
-          <div class="card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-            <div class="review-header">
-              <span class="avatar"><img src="sarah.png" alt="Avatar Sarah L."></span>
-              <div>
-                <div class="author" itemprop="author">Sarah L.</div>
-                <div class="rating-line"><span class="star">★</span>5 / 5 • <span style="color:var(--muted)">il y a 1 mois</span></div>
-              </div>
-            </div>
-            <p style="color:var(--muted)" itemprop="reviewBody">“Très bonne expérience, véhicule conforme et livraison dans les temps.”</p>
-          </div>
-          <div class="card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-            <div class="review-header">
-              <span class="avatar"><img src="hugo.png" alt="Avatar Hugo M."></span>
-              <div>
-                <div class="author" itemprop="author">Hugo M.</div>
-                <div class="rating-line"><span class="star">★</span>4 / 5 • <span style="color:var(--muted)">il y a 3 mois</span></div>
-              </div>
-            </div>
-            <p style="color:var(--muted)" itemprop="reviewBody">“Bon rapport qualité/prix, je recommande SQR pour un achat serein.”</p>
-          </div>
-        </div>
-        <div style="margin-top:16px">
-          <a class="pill" href="https://www.google.com/search?sa=X&sca_esv=7ebae87ec67bf7ae&tbm=lcl&sxsrf=AE3TifOjeN0Jza0qbtDFCFflpxmdHQ7Bvg:1756801926903&q=Sur+Quatre+Roues+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2MzYwNTI1MzM2NrQwNja1MLQw2MDI-IpRNLi0SCGwNLGkKFUhKL80tVjBsSyzeBErdnEAK7dK8koAAAA&rldimm=6305256633183358180&hl=fr-FR&ved=2ahUKEwjjlqyW1bmPAxU8UaQEHZMOIIYQ9fQKegQIXhAF&biw=1920&bih=901&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer">⭐ Voir tous les avis sur Google</a>
-
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <div class="container">
-      © <span id="year"></span> SQR - Sur Quatre Roues. Tous droits réservés.
-    </div>
-  </footer>
-  <button id="backToTop" title="Retour en haut">↑</button>
-
-
-
-
-  <script>
-    // Unified section highlight: works for #catalogue, #services, #avis
-    (function(){
-      const targets = ['#catalogue', '#services', '#avis'];
-      function pulseSel(sel){
-        const el = document.querySelector(sel + ' .container') || document.querySelector(sel);
-        if(!el) return;
-        el.classList.add('section-highlight');
-        setTimeout(()=> el.classList.remove('section-highlight'), 2300);
-      }
-      function maybePulseFromHash(){
-        const h = location.hash;
-        if(targets.includes(h)) setTimeout(()=> pulseSel(h), 100);
-      }
-      // on load
-      maybePulseFromHash();
-      // on hashchange
-      window.addEventListener('hashchange', maybePulseFromHash);
-      // on header clicks (anchors to our targets)
-      document.addEventListener('click', (e)=>{
-        const a = e.target.closest('a[href]');
-        if(!a) return;
-        const href = a.getAttribute('href') || '';
-        const hash = href.includes('#') ? '#' + href.split('#').pop() : '';
-        if(targets.includes(hash)){
-          setTimeout(()=> pulseSel(hash), 450);
-        }
-      });
-    })();
-  </script>
-
-
-  <script>
-    // Inject badges based on data-badges attribute
-    (function(){
-      const map = {
-        'heart': () => {
-          const s = document.createElement('span');
-          s.className = 'badge coupdecoeur';
-          s.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
-          return s;
-        },
-        'rare': () => {
-          const s = document.createElement('span');
-          s.className = 'badge rare'; s.textContent = 'Rare'; return s;
-        },
-        'new': () => {
-          const s = document.createElement('span');
-          s.className = 'badge new'; s.textContent = 'Nouveau'; return s;
-        },
-        'sold': () => {
-          const s = document.createElement('span');
-          s.className = 'badge sold'; s.textContent = 'Vendu'; return s;
-        }
-      };
-      const cards = document.querySelectorAll('#catalogue .card');
-      cards.forEach(card => {
-        // Avoid duplicates: remove existing badges before injecting
-        card.querySelectorAll('.badge').forEach(b => b.remove());
-        const attr = (card.getAttribute('data-badges')||'').trim();
-        if(!attr) return;
-        const items = attr.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
-        items.forEach(key => {
-          if(map[key]){
-            const el = map[key]();
-            // insert as first element for z-index correctness
-            card.insertBefore(el, card.firstElementChild);
-          }
-        });
-      });
-    })();
-  </script>
-
-
-  <div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
-    <div class="lightbox-content">
-      <button class="lightbox-nav" id="lb-prev" aria-label="Précédent">‹</button>
-      <img id="lb-img" src="" alt="Agrandissement véhicule">
-      <button class="lightbox-nav" id="lb-next" aria-label="Suivant">›</button>
-      <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
-    </div>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#"><img src="logo-sqr.jpg" alt="SQR"> Sur Quatre Roues</a>
+    <nav class="menu">
+      <a href="#catalogue">Nos véhicules</a>
+      <a href="#services">Nos services</a>
+      <a href="#avis">Avis clients</a>
+      <a class="btn" href="contact.html">Contact</a>
+    </nav>
   </div>
+</header>
 
+<main>
+  <section id="catalogue" class="container">
+    <h2>Nos véhicules disponibles</h2>
+    <p class="section-sub">Découvrez notre sélection du moment</p>
 
-  <script>
-    (function(){
-      const lb = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lb-img');
-      const prev = document.getElementById('lb-prev');
-      const next = document.getElementById('lb-next');
-      const closeBtn = document.getElementById('lb-close');
-      let gallery = [];
-      let idx = 0;
-      function openWith(arr, startIdx){
-        gallery = (arr||[]).filter(Boolean);
-        idx = Math.max(0, Math.min(startIdx||0, gallery.length-1));
-        if(!gallery.length) return;
-        lbImg.src = gallery[idx];
-        lb.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-      function nav(d){
-        if(!gallery.length) return;
-        idx = (idx + d + gallery.length) % gallery.length;
-        lbImg.src = gallery[idx];
-      }
-      // Delegate clicks on catalogue images
-      document.addEventListener('click', (e) => {
-        const img = e.target.closest('#catalogue .card img');
-        if(!img) return;
-        e.preventDefault();
-        const galAttr = img.getAttribute('data-gallery') || '';
-        const arr = galAttr ? galAttr.split('|') : [img.currentSrc || img.src];
-        const start = Math.max(0, arr.indexOf(img.getAttribute('src')));
-        openWith(arr, start);
-      });
-      prev.addEventListener('click', () => nav(-1));
-      next.addEventListener('click', () => nav(1));
-      function closeLB(){ lb.classList.remove('active'); lbImg.src=''; document.body.style.overflow=''; gallery=[]; }
-      closeBtn.addEventListener('click', closeLB);
-      lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLB(); });
-      document.addEventListener('keydown', (e)=>{
-        if(!lb.classList.contains('active')) return;
-        if(e.key === 'Escape') closeLB();
-        if(e.key === 'ArrowLeft') nav(-1);
-        if(e.key === 'ArrowRight') nav(1);
-      });
-    })();
-  </script>
+    <div id="filters">
+      <div class="filters-row">
+        <div class="input"><label for="q">Recherche</label><input id="q" type="search" placeholder="modèle, motorisation…"></div>
+        <div class="select"><label for="fuel">Énergie</label><select id="fuel"><option value="">Toutes</option><option>Essence</option><option>Diesel</option><option>Hybride</option><option>Électrique</option></select></div>
+        <div class="select"><label for="year">Année min</label><select id="year"><option value="">Toutes</option><option>2020</option><option>2018</option><option>2016</option><option>2014</option><option>2012</option><option>2010</option><option>2008</option><option>2006</option><option>2004</option><option>2002</option><option>2000</option></select></div>
+        <div class="select"><label for="kmmax">Km max</label><select id="kmmax"><option value="">Tous</option><option value="60000">60 000 km</option><option value="90000">90 000 km</option><option value="120000">120 000 km</option><option value="150000">150 000 km</option><option value="200000">200 000 km</option></select></div>
+        <div class="select"><label for="price">Prix max</label><select id="price"><option value="">Tous</option><option value="7000">7 000 €</option><option value="10000">10 000 €</option><option value="15000">15 000 €</option><option value="20000">20 000 €</option></select></div>
+        <div class="select"><label for="gear">Boîte</label><select id="gear"><option value="">Toutes</option><option value="manuelle">Manuelle</option><option value="auto">Automatique</option></select></div>
+        <div class="select"><label for="sort">Trier</label><select id="sort"><option value="">Pertinence</option><option value="price-asc">Prix ↑</option><option value="price-desc">Prix ↓</option><option value="year-desc">Année ↓</option><option value="km-asc">Kilométrage ↑</option></select></div>
+        <button id="resetFilters" class="btn ghost">Réinitialiser</button>
+      </div>
+      <div id="activeChips" class="chips"></div>
+      <div id="resultsCount" class="muted small"></div>
+      <div class="muted small" style="margin-top:6px">🔧 Filtres v2 activés (Km max + Boîte)</div>
+    </div>
 
+    <div class="gallery">
+      <!-- Fiat Punto 1.2 ELX — aucun badge -->
+      <div class="card" data-title="Fiat Punto 1.2 ELX" data-price="3490" data-year="2000" data-km="151500" data-fuel="Essence" data-gear="manuelle">
+        <img src="Fiat Punto 1.2 ELX.jpg" alt="Fiat Punto 1.2 ELX">
+        <h3>Fiat Punto 1.2 ELX</h3><p class="price">3 490 €</p><p>2000 • 151 500 km • Essence</p><p class="muted">Garantie 12 mois</p>
+      </div>
 
-  <script>
-    (function(){
-      const gallery = document.querySelector('#catalogue .gallery');
-      if(!gallery) return;
-      const cards = Array.from(gallery.querySelectorAll('.card'));
+      <!-- Renault Twingo 2 1.5 DCI — coup de coeur -->
+      <div class="card" data-title="Renault Twingo 2 1.5 DCI" data-price="6900" data-year="2013" data-km="123400" data-fuel="Diesel" data-gear="manuelle" data-badges="heart">
+        <img src="Twingo 2.jpg" alt="Renault Twingo 2 1.5 DCI" data-gallery="Twingo 2.jpg|twingo 2 (2).jpg">
+        <h3>Renault Twingo 2 1.5 DCI</h3><p class="price">6 900 €</p><p>2013 • 123 400 km • Diesel</p><p class="muted">Garantie 12 mois</p>
+      </div>
 
-      // Parse specs from the text "2019 • 55 000 km • Essence"
-      function parseSpecs(card){
-        if(card.dataset.parsed) return;
-        const priceEl = card.querySelector('.price');
-        const specText = (card.querySelector('p:nth-of-type(2)')?.textContent || '').trim();
-        const title = (card.querySelector('h3')?.textContent || '').trim();
-        // Price
-        let price = 0;
-        if(priceEl){
-          price = parseInt(priceEl.textContent.replace(/[^0-9]/g,''),10) || 0;
-        }
-        // Year, KM, Fuel
-        let year = 0, km = 0, fuel = '';
-        const parts = specText.split('•').map(s=>s.trim());
-        if(parts[0]){
-          const y = parseInt(parts[0].replace(/[^0-9]/g,''),10);
-          if(!isNaN(y)) year = y;
-        }
-        if(parts[1]){
-          km = parseInt(parts[1].replace(/[^0-9]/g,''),10) || 0;
-        }
-        \1
-        // Gearbox detection: prefer data-gear attribute; fallback to keywords in text
-        let gear = (card.getAttribute('data-gear')||'').toLowerCase();
-        const txt = (title + ' ' + specText).toLowerCase();
-        if(!gear){
-          if(txt.includes('auto') || txt.includes('automatique') || txt.includes('dsg') || txt.includes('bva')) gear = 'auto';
-          else if(txt.includes('manuelle') || txt.includes('bvm')) gear = 'manuelle';
-        }
-        card.dataset.gear = gear;
+      <!-- Renault Twingo 3 — coup de coeur -->
+      <div class="card" data-title="Renault Twingo 3" data-price="8390" data-year="2018" data-km="76900" data-fuel="Essence" data-gear="manuelle" data-badges="heart">
+        <img src="Renault Twingo 3.jpg" alt="Renault Twingo 3">
+        <h3>Renault Twingo 3</h3><p class="price">8 390 €</p><p>2018 • 76 900 km • Essence</p><p class="muted">Garantie 12 mois</p>
+      </div>
 
-        card.dataset.price = String(price);
-        card.dataset.year = String(year);
-        card.dataset.km = String(km);
-        card.dataset.fuel = fuel;
-        card.dataset.title = title.toLowerCase();
-        card.dataset.specs = specText.toLowerCase();
-        card.dataset.parsed = '1';
-      }
-      cards.forEach(parseSpecs);
+      <!-- Toyota Hilux — rare + galerie 3 photos -->
+      <div class="card" data-title="Toyota Hilux 2.5 D-4D 120ch" data-price="18900" data-year="2010" data-km="202000" data-fuel="Diesel" data-gear="manuelle" data-badges="rare">
+        <img src="Toyota Hilux 2.5 D-4D 120ch.jpg" alt="Toyota Hilux 2.5 D-4D 120ch" data-gallery="Toyota Hilux 2.5 D-4D 120ch.jpg|Toyota Hilux 2.5 D-4D 120ch (1).jpg|Toyota Hilux 2.5 D-4D 120ch (2).jpg">
+        <h3>Toyota Hilux 2.5 D-4D 120ch</h3><p class="price">18 900 €</p><p>2010 • 202 000 km • Diesel</p><p class="muted">Garantie 12 mois</p>
+      </div>
+    </div>
+  </section>
 
-      // Controls
-      const q = document.getElementById('q');
-      const fuel = document.getElementById('fuel');
-      const year = document.getElementById('year');
-      const price = document.getElementById('price');
-      const sort = document.getElementById('sort');
-      const kmmax = document.getElementById('kmmax');
-      const gear = document.getElementById('gear');
-      const resetBtn = document.getElementById('resetFilters');
-      const chips = document.getElementById('activeChips');
-      const resultsCount = document.getElementById('resultsCount');
+  <section id="services" class="container">
+    <h2>Nos services</h2>
+    <p class="section-sub">Reprise de votre véhicule • Garantie & révision • Livraison & immatriculation</p>
+  </section>
 
-      function apply(){
-        const qv = (q.value||'').toLowerCase().trim();
-        const fv = fuel.value;
-        const yv = parseInt(year.value||'0',10) || 0;
-        const pv = parseInt(price.value||'0',10) || 0;
-        const kv = parseInt(kmmax.value||'0',10) || 0;
-        const gv = (gear.value||'').toLowerCase();
+  <section id="avis" class="container">
+    <h2>Avis clients</h2>
+    <p class="section-sub">Note moyenne 4.9 ★</p>
+  </section>
+</main>
 
-        let shown = 0;
-        cards.forEach(c => {
-          parseSpecs(c);
-          const matchQ = !qv || c.dataset.title.includes(qv) || c.dataset.specs.includes(qv);
-          const matchFuel = !fv || c.dataset.fuel === fv;
-          const matchYear = !yv || (parseInt(c.dataset.year,10) || 0) >= yv;
-          const matchPrice = !pv || (parseInt(c.dataset.price,10) || 0) <= pv;
-          const matchKm = !kv || (parseInt(c.dataset.km,10) || 0) <= kv;
-          const matchGear = !gv || (c.dataset.gear||"") === gv;
-          const ok = matchQ && matchFuel && matchYear && matchPrice && matchKm && matchGear;
-          c.classList.toggle('hide', !ok);
-          if(ok) shown++;
-        });
+<!-- Lightbox -->
+<div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
+  <div class="lightbox-content">
+    <button class="lightbox-nav" id="lb-prev" aria-label="Précédent">‹</button>
+    <img id="lb-img" src="" alt="Agrandissement véhicule">
+    <button class="lightbox-nav" id="lb-next" aria-label="Suivant">›</button>
+    <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
+  </div>
+</div>
 
-        // Sort visible cards
-        const visible = cards.filter(c => !c.classList.contains('hide'));
-        const val = sort.value;
-        const cmp = {
-          'price-asc':  (a,b)=> (a.dataset.price|0) - (b.dataset.price|0),
-          'price-desc': (a,b)=> (b.dataset.price|0) - (a.dataset.price|0),
-          'year-desc':  (a,b)=> (b.dataset.year|0) - (a.dataset.year|0),
-          'km-asc':     (a,b)=> (a.dataset.km|0)   - (b.dataset.km|0),
-        }[val];
-        if(cmp){
-          visible.sort(cmp).forEach(el => gallery.appendChild(el));
-        }
+<div class="build-stamp">Build: SQR fix badges + filtres v2 • 2025-09-12 07:48:24 UTC</div>
 
-        // Chips
-        chips.innerHTML = '';
-        const chipDefs = [];
-        if(qv) chipDefs.push({k:'q',label:'Recherche: ' + q.value});
-        if(fv) chipDefs.push({k:'fuel',label:'Énergie: ' + fv});
-        if(yv) chipDefs.push({k:'year',label:'Année ≥ ' + yv});
-        if(pv) chipDefs.push({k:'price',label:'Prix ≤ ' + new Intl.NumberFormat('fr-FR').format(pv) + ' €'});
-        if(kv) chipDefs.push({k:'km',label:'Km ≤ ' + new Intl.NumberFormat('fr-FR').format(kv) + ' km'});
-        if(gv) chipDefs.push({k:'gear',label:'Boîte: ' + (gv==='auto'?'Automatique':'Manuelle')});
+<script>
+// Inject badges depuis data-badges
+(function(){
+  const map={'heart':()=>{const s=document.createElement('span');s.className='badge coupdecoeur';s.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';return s;},'rare':()=>{const s=document.createElement('span');s.className='badge rare';s.textContent='Rare';return s;}};
+  document.querySelectorAll('.card').forEach(c=>{const b=(c.getAttribute('data-badges')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);b.forEach(k=>{if(map[k]) c.insertBefore(map[k](),c.firstElementChild);});});
+})();
 
-        chipDefs.forEach(def => {
-          const c = document.createElement('span');
-          c.className='chip';
-          c.innerHTML = def.label + ' <button aria-label="Retirer filtre">×</button>';
-          c.querySelector('button').addEventListener('click', () => {
-            if(def.k==='q') q.value='';
-            if(def.k==='fuel') fuel.value='';
-            if(def.k==='year') year.value='';
-            if(def.k==='price') price.value=''; if(def.k==='km') kmmax.value=''; if(def.k==='gear') gear.value='';
-            apply();
-          });
-          chips.appendChild(c);
-        });
+// Filtres
+(function(){
+  const gallery=document.querySelector('.gallery');const cards=[...gallery.querySelectorAll('.card')];
+  const q=document.getElementById('q'),fuel=document.getElementById('fuel'),year=document.getElementById('year'),kmmax=document.getElementById('kmmax'),price=document.getElementById('price'),gear=document.getElementById('gear'),sort=document.getElementById('sort'),chips=document.getElementById('activeChips'),resetBtn=document.getElementById('resetFilters'),resultsCount=document.getElementById('resultsCount');
+  function apply(){const qv=(q.value||'').toLowerCase().trim();const fv=fuel.value;const yv=parseInt(year.value||'0',10)||0;const kv=parseInt(kmmax.value||'0',10)||0;const pv=parseInt(price.value||'0',10)||0;const gv=(gear.value||'').toLowerCase();let shown=0;
+    cards.forEach(c=>{const matchQ=!qv||(c.dataset.title||'').toLowerCase().includes(qv);const matchFuel=!fv||c.dataset.fuel===fv;const matchYear=!yv||(c.dataset.year|0)>=yv;const matchKm=!kv||(c.dataset.km|0)<=kv;const matchPrice=!pv||(c.dataset.price|0)<=pv;const matchGear=!gv||(c.dataset.gear||'')===gv;const ok=matchQ&&matchFuel&&matchYear&&matchKm&&matchPrice&&matchGear;c.classList.toggle('hide',!ok);if(ok) shown++;});
+    const visible=cards.filter(c=>!c.classList.contains('hide'));const cmp={'price-asc':(a,b)=>(a.dataset.price|0)-(b.dataset.price|0),'price-desc':(a,b)=>(b.dataset.price|0)-(a.dataset.price|0),'year-desc':(a,b)=>(b.dataset.year|0)-(a.dataset.year|0),'km-asc':(a,b)=>(a.dataset.km|0)-(b.dataset.km|0)}[sort.value||''];if(cmp) visible.sort(cmp).forEach(el=>gallery.appendChild(el));
+    chips.innerHTML='';const defs=[];if(qv) defs.push({k:'q',label:'Recherche: '+q.value});if(fv) defs.push({k:'fuel',label:'Énergie: '+fv});if(yv) defs.push({k:'year',label:'Année ≥ '+yv});if(kv) defs.push({k:'km',label:'Km ≤ '+new Intl.NumberFormat('fr-FR').format(kv)+' km'});if(pv) defs.push({k:'price',label:'Prix ≤ '+new Intl.NumberFormat('fr-FR').format(pv)+' €'});if(gv) defs.push({k:'gear',label:'Boîte: '+(gv==='auto'?'Automatique':'Manuelle')});defs.forEach(def=>{const chip=document.createElement('span');chip.className='chip';chip.innerHTML=def.label+' <button>×</button>';chip.querySelector('button').addEventListener('click',()=>{if(def.k==='q') q.value='';if(def.k==='fuel') fuel.value='';if(def.k==='year') year.value='';if(def.k==='km') kmmax.value='';if(def.k==='price') price.value='';if(def.k==='gear') gear.value='';apply();});chips.appendChild(chip);});
+    resultsCount.textContent=shown+' véhicule'+(shown>1?'s':'')+' trouvé'+(shown>1?'s':'');}
+  ;[q,fuel,year,kmmax,price,gear,sort].forEach(el=>el&&el.addEventListener('input',apply));resetBtn&&resetBtn.addEventListener('click',()=>{q.value='';fuel.value='';year.value='';kmmax.value='';price.value='';gear.value='';sort.value='';apply();});apply();})();
 
-        // Results count
-        resultsCount.textContent = shown + ' véhicule' + (shown>1?'s':'') + ' trouvé' + (shown>1?'s':'');
-        // No results message
-        let empty = document.getElementById('noResults');
-        if(!empty){
-          empty = document.createElement('p');
-          empty.id='noResults';
-          empty.className='muted small';
-          empty.style.display='none';
-          empty.textContent = 'Aucun véhicule ne correspond à vos filtres.';
-          gallery.parentElement.appendChild(empty);
-        }
-        empty.style.display = shown ? 'none' : 'block';
-      }
-
-      // Events
-      [q,fuel,year,price,sort,kmmax,gear].forEach(el => el && el.addEventListener('input', apply));
-      resetBtn.addEventListener('click', ()=>{
-        q.value=''; fuel.value=''; year.value=''; price.value=''; kmmax.value=''; gear.value=''; sort.value='';
-        apply();
-      });
-
-      // Init
-      apply();
-    })();
-  </script>
-
-<div style="position:fixed;right:12px;bottom:12px;background:#1a5cb5;color:#fff;padding:6px 10px;border-radius:10px;z-index:99999;font-size:12px;box-shadow:0 6px 18px rgba(0,0,0,.25)">Build: filters v2 (km+boîte) • 2025-09-11 20:55:51 UTC</div>
+// Lightbox
+(function(){
+  const lb=document.getElementById('lightbox'),img=document.getElementById('lb-img'),prev=document.getElementById('lb-prev'),next=document.getElementById('lb-next'),closeBtn=document.getElementById('lb-close');let gal=[],idx=0;
+  function open(arr,start){gal=(arr||[]).filter(Boolean);idx=Math.max(0,Math.min(start||0,gal.length-1));if(!gal.length) return;img.src=gal[idx];lb.classList.add('active');document.body.style.overflow='hidden';}
+  function nav(d){if(!gal.length) return;idx=(idx+d+gal.length)%gal.length;img.src=gal[idx];}
+  document.addEventListener('click',e=>{const im=e.target.closest('.card img');if(!im) return;const g=(im.getAttribute('data-gallery')||'');const arr=g?g.split('|'):[im.currentSrc||im.src];const start=Math.max(0,arr.indexOf(im.getAttribute('src')));open(arr,start);});
+  prev.addEventListener('click',()=>nav(-1));next.addEventListener('click',()=>nav(1));
+  function closeLB(){lb.classList.remove('active');img.src='';document.body.style.overflow='';gal=[];}
+  closeBtn.addEventListener('click',closeLB);lb.addEventListener('click',e=>{if(e.target===lb) closeLB();});
+  document.addEventListener('keydown',e=>{if(!lb.classList.contains('active')) return;if(e.key==='Escape') closeLB();if(e.key==='ArrowLeft') nav(-1);if(e.key==='ArrowRight') nav(1);});
+})();
+</script>
 </body>
 </html>
