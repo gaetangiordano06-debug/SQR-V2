@@ -1,167 +1,360 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SQR – Sur Quatre Roues</title>
-<link rel="icon" href="logo-sqr.jpg">
-<style>
-:root{--bg:#0b0f1a;--bg-soft:#12182a;--text:#e9eefc;--muted:#a9b4d0;--brand:#1a5cb5;--accent:#66e5d0;--radius:16px;--shadow:0 8px 24px rgba(0,0,0,.25)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b0f1a;color:#e9eefc}
-a{color:inherit;text-decoration:none}.container{max-width:1200px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:100;background:rgba(18,24,42,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand img{height:52px;width:auto}
-.menu{display:flex;gap:22px;align-items:center}.menu a{opacity:.9}.menu a:hover{opacity:1}.btn{background:#1a5cb5;color:#fff;padding:10px 14px;border-radius:999px;border:0}
-section{padding:40px 0}h1,h2{margin:0 0 10px}.section-sub{color:#a9b4d0;margin-bottom:16px}
-#filters{background:#12182a;padding:14px;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.25);position:sticky;top:82px;z-index:50;margin-bottom:18px}
-.filters-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
-.input,.select{display:flex;flex-direction:column;gap:6px}.input input,.select select{background:#0e1322;border:1px solid rgba(255,255,255,.1);color:#e9eefc;padding:10px 12px;border-radius:12px}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:#e9eefc}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;font-size:.85rem;display:flex;gap:6px;align-items:center}
-.chip button{background:transparent;border:0;color:#e9eefc;cursor:pointer;opacity:.8}
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.card{background:#12182a;border-radius:18px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,.25);position:relative;overflow:hidden}
-.card.hide{display:none}.card img{width:100%;height:180px;object-fit:cover;border-radius:14px;display:block;transition:transform .25s}.card:hover img{transform:scale(1.03)}
-.price{color:#66e5d0;font-weight:800;margin:8px 0}
-.badge{position:absolute;top:12px;left:12px;z-index:3;pointer-events:none}
-.badge.coupdecoeur{background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%}
-.badge.coupdecoeur svg{width:16px;height:16px;fill:#fff}
-.badge.rare{background:purple;color:#fff;padding:4px 8px;border-radius:12px;font-size:.75rem;font-weight:700}
-.lightbox-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:24px}
-.lightbox-backdrop.active{display:flex}.lightbox-content{max-width:92vw;max-height:86vh;position:relative;display:flex;align-items:center;gap:16px}
-.lightbox-content img{max-width:80vw;max-height:86vh;border-radius:12px;display:block}.lightbox-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
-.lightbox-close{position:absolute;top:-12px;right:-12px;background:#111;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer}
-.build-stamp{position:fixed;right:12px;bottom:12px;background:#1a5cb5;color:#fff;padding:6px 10px;border-radius:10px;z-index:99999;font-size:12px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SQR – Sur Quatre Roues</title>
+  <link rel="icon" href="logo-sqr.jpg" />
+  <style>
+    :root {
+      --bg:#0b0f1a;
+      --bg-soft:#12182a;
+      --text:#e9eefc;
+      --muted:#a9b4d0;
+      --brand:#1a5cb5;
+      --accent:#66e5d0;
+      --radius:16px;
+      --shadow:0 8px 24px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:100;background:rgba(18,24,42,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand img{height:52px}
+    .menu{display:flex;gap:22px;align-items:center}
+    .menu a{opacity:.9}
+    .menu a:hover{opacity:1}
+    .menu a.active{color:#fff;position:relative}
+    .menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent);border-radius:2px}
+    .btn{background:var(--brand);color:#fff;padding:10px 14px;border-radius:999px;border:0}
+
+    section{padding:40px 0}
+    h1,h2{margin:0 0 10px}
+    .section-sub{color:var(--muted);margin-bottom:16px}
+
+    /* Filters */
+    #filters{background:var(--bg-soft);padding:14px;border-radius:16px;box-shadow:var(--shadow);position:sticky;top:82px;z-index:50;margin-bottom:18px}
+    .filters-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
+    .input,.select{display:flex;flex-direction:column;gap:6px}
+    .input input,.select select{background:#0e1322;border:1px solid rgba(255,255,255,.1);color:var(--text);padding:10px 12px;border-radius:12px}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text)}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;font-size:.85rem;display:flex;gap:6px;align-items:center}
+    .chip button{background:transparent;border:0;color:var(--text);cursor:pointer;opacity:.8}
+
+    /* Vehicles */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+    .card{background:var(--bg-soft);border-radius:18px;padding:14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .card.hide{display:none}
+    .card img{width:100%;height:180px;object-fit:cover;border-radius:14px;transition:transform .25s}
+    .card:hover img{transform:scale(1.03)}
+    .price{color:var(--accent);font-weight:800;margin:8px 0}
+
+    /* Badges */
+    .badge{position:absolute;top:12px;left:12px;z-index:3}
+    .badge.coupdecoeur{background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%}
+    .badge.coupdecoeur svg{width:16px;height:16px;fill:#fff}
+    .badge.rare{background:purple;color:#fff;padding:4px 8px;border-radius:12px;font-size:.75rem;font-weight:700}
+
+    /* Services */
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .service-card{background:var(--bg-soft);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .service-card h3{margin:8px 0 6px}
+    .service-card p{color:var(--muted);margin:0}
+
+    /* Reviews */
+    .reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .review{background:var(--bg-soft);border-radius:16px;padding:16px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+    .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#222}
+    .stars{color:#ffd34f}
+    .review small{color:var(--muted)}
+
+    /* Lightbox */
+    .lightbox-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:24px}
+    .lightbox-backdrop.active{display:flex}
+    .lightbox-content{max-width:92vw;max-height:86vh;position:relative;display:flex;align-items:center;gap:16px}
+    .lightbox-content img{max-width:80vw;max-height:86vh;border-radius:12px}
+    .lightbox-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
+    .lightbox-close{position:absolute;top:-12px;right:-12px;background:#111;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer}
+
+    .build-stamp{position:fixed;right:12px;bottom:12px;background:var(--brand);color:#fff;padding:6px 10px;border-radius:10px;z-index:99999;font-size:12px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  </style>
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="#"><img src="logo-sqr.jpg" alt="SQR"> Sur Quatre Roues</a>
-    <nav class="menu">
-      <a href="#catalogue">Nos véhicules</a>
-      <a href="#services">Nos services</a>
-      <a href="#avis">Avis clients</a>
-      <a class="btn" href="contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <section id="catalogue" class="container">
-    <h2>Nos véhicules disponibles</h2>
-    <p class="section-sub">Découvrez notre sélection du moment</p>
-
-    <div id="filters">
-      <div class="filters-row">
-        <div class="input"><label for="q">Recherche</label><input id="q" type="search" placeholder="modèle, motorisation…"></div>
-        <div class="select"><label for="fuel">Énergie</label><select id="fuel"><option value="">Toutes</option><option>Essence</option><option>Diesel</option><option>Hybride</option><option>Électrique</option></select></div>
-        <div class="select"><label for="year">Année min</label><select id="year"><option value="">Toutes</option><option>2020</option><option>2018</option><option>2016</option><option>2014</option><option>2012</option><option>2010</option><option>2008</option><option>2006</option><option>2004</option><option>2002</option><option>2000</option></select></div>
-        <div class="select"><label for="kmmax">Km max</label><select id="kmmax"><option value="">Tous</option><option value="60000">60 000 km</option><option value="90000">90 000 km</option><option value="120000">120 000 km</option><option value="150000">150 000 km</option><option value="200000">200 000 km</option></select></div>
-        <div class="select"><label for="price">Prix max</label><select id="price"><option value="">Tous</option><option value="7000">7 000 €</option><option value="10000">10 000 €</option><option value="15000">15 000 €</option><option value="20000">20 000 €</option></select></div>
-        <div class="select"><label for="gear">Boîte</label><select id="gear"><option value="">Toutes</option><option value="manuelle">Manuelle</option><option value="auto">Automatique</option></select></div>
-        <div class="select"><label for="sort">Trier</label><select id="sort"><option value="">Pertinence</option><option value="price-asc">Prix ↑</option><option value="price-desc">Prix ↓</option><option value="year-desc">Année ↓</option><option value="km-asc">Kilométrage ↑</option></select></div>
-        <button id="resetFilters" class="btn ghost">Réinitialiser</button>
-      </div>
-      <div id="activeChips" class="chips"></div>
-      <div id="resultsCount" class="muted small"></div>
-      <div class="muted small" style="margin-top:6px">🔧 Filtres v2 activés (Km max + Boîte)</div>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#"><img src="logo-sqr.jpg" alt="SQR"> Sur Quatre Roues</a>
+      <nav class="menu">
+        <a href="#catalogue">Nos véhicules</a>
+        <a href="#services">Nos services</a>
+        <a href="#avis">Avis clients</a>
+        <a class="btn" href="contact.html">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <div id="gallery" class="gallery"></div>
-  </section>
+  <main>
+    <!-- Vehicles -->
+    <section id="catalogue" class="container">
+      <h2>Nos véhicules disponibles</h2>
+      <p class="section-sub">Découvrez notre sélection du moment</p>
+      <div id="filters">
+        <div class="filters-row">
+          <div class="input"><label>Recherche<input id="q" type="search" placeholder="modèle, motorisation…"></label></div>
+          <div class="select"><label>Énergie<select id="fuel"><option value="">Toutes</option><option>Essence</option><option>Diesel</option><option>Hybride</option><option>Électrique</option></select></label></div>
+          <div class="select"><label>Année min<select id="year"><option value="">Toutes</option><option>2020</option><option>2018</option><option>2016</option><option>2014</option><option>2012</option><option>2010</option><option>2008</option><option>2006</option><option>2004</option><option>2002</option><option>2000</option></select></label></div>
+          <div class="select"><label>Km max<select id="kmmax"><option value="">Tous</option><option value="60000">60 000 km</option><option value="90000">90 000 km</option><option value="120000">120 000 km</option><option value="150000">150 000 km</option><option value="200000">200 000 km</option></select></label></div>
+          <div class="select"><label>Prix max<select id="price"><option value="">Tous</option><option value="7000">7 000 €</option><option value="10000">10 000 €</option><option value="15000">15 000 €</option><option value="20000">20 000 €</option></select></label></div>
+          <div class="select"><label>Boîte<select id="gear"><option value="">Toutes</option><option value="manuelle">Manuelle</option><option value="auto">Automatique</option></select></label></div>
+          <div class="select"><label>Trier<select id="sort"><option value="">Pertinence</option><option value="price-asc">Prix ↑</option><option value="price-desc">Prix ↓</option><option value="year-desc">Année ↓</option><option value="km-asc">Kilométrage ↑</option></select></label></div>
+          <button id="resetFilters" class="btn ghost">Réinitialiser</button>
+        </div>
+        <div id="activeChips" class="chips"></div>
+        <div id="resultsCount" class="muted small"></div>
+      </div>
+      <div id="gallery" class="gallery"></div>
+    </section>
 
-  <section id="services" class="container">
-    <h2>Nos services</h2>
-    <p class="section-sub">Reprise de votre véhicule • Garantie & révision • Livraison & immatriculation</p>
-  </section>
+    <!-- Services -->
+    <section id="services" class="container">
+      <h2>Nos services</h2>
+      <p class="section-sub">Des solutions adaptées à vos besoins</p>
+      <div class="services-grid">
+        <div class="service-card"><h3>Reprise de votre véhicule</h3><p>Estimation rapide et transparente, reprise possible même sans achat.</p></div>
+        <div class="service-card"><h3>Garantie & révision</h3><p>Véhicules contrôlés, garantie et entretien possibles selon le profil.</p></div>
+        <div class="service-card"><h3>Financement</h3><p>Solutions de financement adaptées (mensualités, durée, apport). Dossier simple et rapide.</p></div>
+        <div class="service-card"><h3>Livraison & immatriculation</h3><p>Gestion des démarches administratives et livraison selon les besoins.</p></div>
+      </div>
+    </section>
 
-  <section id="avis" class="container">
-    <h2>Avis clients</h2>
-    <p class="section-sub">Note moyenne 4.9 ★</p>
-  </section>
-</main>
+    <!-- Avis -->
+    <section id="avis" class="container">
+      <h2>Avis clients</h2>
+      <p class="section-sub">Note moyenne 4.9 ★ — Nos clients parlent de leur expérience chez SQR</p>
+      <div class="reviews">
+        <article class="review"><img class="avatar" src="avatar-alex.jpg" alt="Alex M." onerror="this.style.display='none'"><div><div class="stars">★★★★★</div><p>Très pro, transaction fluide et voiture conforme. Je recommande Sur Quatre Roues.</p><small>Alex M. • Achat Twingo</small></div></article>
+        <article class="review"><img class="avatar" src="avatar-sarah.jpg" alt="Sarah M." onerror="this.style.display='none'"><div><div class="stars">★★★★★</div><p>Super accueil, reprise de mon ancien véhicule et financement rapide.</p><small>Sarah M. • Reprise + financement</small></div></article>
+        <article class="review"><img class="avatar" src="avatar-luc.jpg" alt="Luc P." onerror="this.style.display='none'"><div><div class="stars">★★★★☆</div><p>Livraison à l’heure et papier d’immatriculation géré par SQR. Nickel.</p><small>Luc P. • Livraison & immat</small></div></article>
+      </div>
+    </section>
+  </main>
 
-<!-- Lightbox -->
-<div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
-  <div class="lightbox-content">
-    <button class="lightbox-nav" id="lb-prev" aria-label="Précédent">‹</button>
-    <img id="lb-img" src="" alt="Agrandissement véhicule">
-    <button class="lightbox-nav" id="lb-next" aria-label="Suivant">›</button>
-    <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
+  <!-- Lightbox -->
+  <div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Agrandissement image véhicule">
+    <div class="lightbox-content">
+      <button class="lightbox-nav" id="lb-prev" aria-label="Précédent">‹</button>
+      <img id="lb-img" src="" alt="Agrandissement véhicule">
+      <button class="lightbox-nav" id="lb-next" aria-label="Suivant">›</button>
+      <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
+    </div>
   </div>
-</div>
 
-<div class="build-stamp">Build: Data-driven FULL • 2025-09-12 10:06:18 UTC</div>
+  <div class="build-stamp">Build: Data-driven FULL</div>
 
-<script>
-async function loadVehicles(){
-  const res = await fetch('vehicles.json?ts=' + Date.now());
-  const data = await res.json();
-  const g = document.getElementById('gallery');
-  g.innerHTML = '';
-  data.forEach(v=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.title = v.title;
-    card.dataset.price = v.price||0;
-    card.dataset.year = v.year||0;
-    card.dataset.km = v.km||0;
-    card.dataset.fuel = v.fuel||'';
-    card.dataset.gear = v.gear||'';
-    if (v.badges && v.badges.length) card.setAttribute('data-badges', v.badges.join(','));
+  <script>
+    async function loadVehicles(){
+      const res = await fetch('vehicles.json?ts=' + Date.now());
+      const data = await res.json();
+      const g = document.getElementById('gallery');
+      g.innerHTML = '';
+      data.forEach(v=>{
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.title = v.title;
+        card.dataset.price = v.price||0;
+        card.dataset.year = v.year||0;
+        card.dataset.km = v.km||0;
+        card.dataset.fuel = v.fuel||'';
+        card.dataset.gear = v.gear||'';
+        if(v.badges && v.badges.length) card.dataset.badges = v.badges.join(',');
 
-    const img = document.createElement('img');
-    img.src = v.img;
-    img.alt = v.title;
-    if (v.gallery && v.gallery.length) img.setAttribute('data-gallery', v.gallery.join('|'));
-    card.appendChild(img);
+        const img = document.createElement('img');
+        img.src = v.img; img.alt = v.title;
+        if(v.gallery && v.gallery.length) img.dataset.gallery = v.gallery.join('|');
+        card.appendChild(img);
 
-    const h3 = document.createElement('h3'); h3.textContent = v.title; card.appendChild(h3);
+        const h3 = document.createElement('h3'); h3.textContent = v.title; card.appendChild(h3);
 
-    const price = document.createElement('p'); price.className='price';
-    if(v.price>0) price.textContent = new Intl.NumberFormat('fr-FR').format(v.price)+' €';
-    else { price.textContent = 'Prix sur demande'; price.style.color='#a9b4d0'; }
-    card.appendChild(price);
+        const price = document.createElement('p'); price.className='price';
+        price.textContent = v.price ? new Intl.NumberFormat('fr-FR').format(v.price)+' €' : 'Prix sur demande';
+        card.appendChild(price);
 
-    const p = document.createElement('p');
-    p.textContent = (v.year||'—') + ' • ' + (v.km? new Intl.NumberFormat('fr-FR').format(v.km)+' km' : '— km') + ' • ' + (v.fuel||'—');
-    card.appendChild(p);
+        const p = document.createElement('p');
+        const kmTxt = v.km ? new Intl.NumberFormat('fr-FR').format(v.km)+' km' : '— km';
+        p.textContent = (v.year||'—') + ' • ' + kmTxt + ' • ' + (v.fuel||'—');
+        card.appendChild(p);
 
-    g.appendChild(card);
-  });
+        g.appendChild(card);
+      });
 
-  // Inject badges
-  const map={'heart':()=>{const s=document.createElement('span');s.className='badge coupdecoeur';s.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';return s;},'rare':()=>{const s=document.createElement('span');s.className='badge rare';s.textContent='Rare';return s;}};
-  document.querySelectorAll('.card').forEach(c=>{const b=(c.getAttribute('data-badges')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);b.forEach(k=>{if(map[k]) c.insertBefore(map[k](),c.firstElementChild);});});
+      // Badges
+      const map = {
+        heart: ()=>{
+          const s=document.createElement('span');
+          s.className='badge coupdecoeur';
+          s.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+          return s;
+        },
+        rare: ()=>{
+          const s=document.createElement('span');
+          s.className='badge rare';
+          s.textContent='Rare';
+          return s;
+        }
+      };
+      document.querySelectorAll('.card').forEach(c=>{
+        const b=(c.dataset.badges||'').split(',').map(x=>x.trim()).filter(Boolean);
+        b.forEach(k=>{ if(map[k]) c.insertBefore(map[k](), c.firstChild); });
+      });
 
-  initFilters();
-}
+      initFilters();
+    }
 
-function initFilters(){
-  const gallery=document.getElementById('gallery');const cards=[...gallery.querySelectorAll('.card')];
-  const q=document.getElementById('q'),fuel=document.getElementById('fuel'),year=document.getElementById('year'),kmmax=document.getElementById('kmmax'),price=document.getElementById('price'),gear=document.getElementById('gear'),sort=document.getElementById('sort'),chips=document.getElementById('activeChips'),resetBtn=document.getElementById('resetFilters'),resultsCount=document.getElementById('resultsCount');
-  function apply(){const qv=(q.value||'').toLowerCase().trim();const fv=fuel.value;const yv=parseInt(year.value||'0',10)||0;const kv=parseInt(kmmax.value||'0',10)||0;const pv=parseInt(price.value||'0',10)||0;const gv=(gear.value||'').toLowerCase();let shown=0;
-    cards.forEach(c=>{const matchQ=!qv||(c.dataset.title||'').toLowerCase().includes(qv);const matchFuel=!fv||c.dataset.fuel===fv;const matchYear=!yv||(c.dataset.year|0)>=yv;const matchKm=!kv||(c.dataset.km|0)<=kv;const matchPrice=!pv||(c.dataset.price|0)<=pv;const matchGear=!gv||(c.dataset.gear||'')===gv;const ok=matchQ&&matchFuel&&matchYear&&matchKm&&matchPrice&&matchGear;c.classList.toggle('hide',!ok);if(ok) shown++;});
-    const visible=cards.filter(c=>!c.classList.contains('hide'));const cmp={'price-asc':(a,b)=>(a.dataset.price|0)-(b.dataset.price|0),'price-desc':(a,b)=>(b.dataset.price|0)-(a.dataset.price|0),'year-desc':(a,b)=>(b.dataset.year|0)-(a.dataset.year|0),'km-asc':(a,b)=>(a.dataset.km|0)-(b.dataset.km|0)}[sort.value||''];if(cmp) visible.sort(cmp).forEach(el=>gallery.appendChild(el));
-    chips.innerHTML='';const defs=[];if(qv) defs.push({k:'q',label:'Recherche: '+q.value});if(fv) defs.push({k:'fuel',label:'Énergie: '+fv});if(yv) defs.push({k:'year',label:'Année ≥ '+yv});if(kv) defs.push({k:'km',label:'Km ≤ '+new Intl.NumberFormat('fr-FR').format(kv)+' km'});if(pv) defs.push({k:'price',label:'Prix ≤ '+new Intl.NumberFormat('fr-FR').format(pv)+' €'});if(gv) defs.push({k:'gear',label:'Boîte: '+(gv==='auto'?'Automatique':'Manuelle')});defs.forEach(def=>{const chip=document.createElement('span');chip.className='chip';chip.innerHTML=def.label+' <button>×</button>';chip.querySelector('button').addEventListener('click',()=>{if(def.k==='q') q.value='';if(def.k==='fuel') fuel.value='';if(def.k==='year') year.value='';if(def.k==='km') kmmax.value='';if(def.k==='price') price.value='';if(def.k==='gear') gear.value='';apply();});chips.appendChild(chip);});
-    resultsCount.textContent=shown+' véhicule'+(shown>1?'s':'')+' trouvé'+(shown>1?'s':'');}
-  ;[q,fuel,year,kmmax,price,gear,sort].forEach(el=>el&&el.addEventListener('input',apply));resetBtn&&resetBtn.addEventListener('click',()=>{q.value='';fuel.value='';year.value='';kmmax.value='';price.value='';gear.value='';sort.value='';apply();});apply();
-}
+    function initFilters(){
+      const gallery=document.getElementById('gallery');
+      const cards=[...gallery.querySelectorAll('.card')];
+      const q=document.getElementById('q'),
+            fuel=document.getElementById('fuel'),
+            year=document.getElementById('year'),
+            kmmax=document.getElementById('kmmax'),
+            price=document.getElementById('price'),
+            gear=document.getElementById('gear'),
+            sort=document.getElementById('sort'),
+            chips=document.getElementById('activeChips'),
+            resetBtn=document.getElementById('resetFilters'),
+            resultsCount=document.getElementById('resultsCount');
 
-// Lightbox
-(function(){
-  const lb=document.getElementById('lightbox'),img=document.getElementById('lb-img'),prev=document.getElementById('lb-prev'),next=document.getElementById('lb-next'),closeBtn=document.getElementById('lb-close');let gal=[],idx=0;
-  function open(arr,start){gal=(arr||[]).filter(Boolean);idx=Math.max(0,Math.min(start||0,gal.length-1));if(!gal.length) return;img.src=gal[idx];lb.classList.add('active');document.body.style.overflow='hidden';}
-  function nav(d){if(!gal.length) return;idx=(idx+d+gal.length)%gal.length;img.src=gal[idx];}
-  document.addEventListener('click',e=>{const im=e.target.closest('.card img');if(!im) return;const g=(im.getAttribute('data-gallery')||'');const arr=g?g.split('|'):[im.currentSrc||im.src];const start=Math.max(0,arr.indexOf(im.getAttribute('src')));open(arr,start);});
-  prev.addEventListener('click',()=>nav(-1));next.addEventListener('click',()=>nav(1));
-  function closeLB(){lb.classList.remove('active');img.src='';document.body.style.overflow='';gal=[];}
-  closeBtn.addEventListener('click',closeLB);lb.addEventListener('click',e=>{if(e.target===lb) closeLB();});
-  document.addEventListener('keydown',e=>{if(!lb.classList.contains('active')) return;if(e.key==='Escape') closeLB();if(e.key==='ArrowLeft') nav(-1);if(e.key==='ArrowRight') nav(1);});
-})();
+      function apply(){
+        const qv=(q.value||'').toLowerCase().trim();
+        const fv=fuel.value;
+        const yv=parseInt(year.value||'0',10)||0;
+        const kv=parseInt(kmmax.value||'0',10)||0;
+        const pv=parseInt(price.value||'0',10)||0;
+        const gv=(gear.value||'').toLowerCase();
+        let shown=0;
 
-loadVehicles();
-</script>
+        cards.forEach(c=>{
+          const ok =
+            (!qv || (c.dataset.title||'').toLowerCase().includes(qv)) &&
+            (!fv || c.dataset.fuel===fv) &&
+            (!yv || (c.dataset.year|0) >= yv) &&
+            (!kv || (c.dataset.km|0) <= kv) &&
+            (!pv || (c.dataset.price|0) <= pv) &&
+            (!gv || (c.dataset.gear||'') === gv);
+          c.classList.toggle('hide', !ok);
+          if(ok) shown++;
+        });
+
+        const visible = cards.filter(c=>!c.classList.contains('hide'));
+        const cmp = {
+          'price-asc': (a,b)=>(a.dataset.price|0)-(b.dataset.price|0),
+          'price-desc': (a,b)=>(b.dataset.price|0)-(a.dataset.price|0),
+          'year-desc': (a,b)=>(b.dataset.year|0)-(a.dataset.year|0),
+          'km-asc': (a,b)=>(a.dataset.km|0)-(b.dataset.km|0)
+        }[sort.value||''];
+        if(cmp) visible.sort(cmp).forEach(el=>gallery.appendChild(el));
+
+        // Chips
+        chips.innerHTML='';
+        const defs=[];
+        if(qv) defs.push({k:'q',label:'Recherche: '+q.value});
+        if(fv) defs.push({k:'fuel',label:'Énergie: '+fv});
+        if(yv) defs.push({k:'year',label:'Année ≥ '+yv});
+        if(kv) defs.push({k:'km',label:'Km ≤ '+new Intl.NumberFormat('fr-FR').format(kv)+' km'});
+        if(pv) defs.push({k:'price',label:'Prix ≤ '+new Intl.NumberFormat('fr-FR').format(pv)+' €'});
+        if(gv) defs.push({k:'gear',label:'Boîte: '+(gv==='auto'?'Automatique':'Manuelle')});
+        defs.forEach(def=>{
+          const chip=document.createElement('span');
+          chip.className='chip';
+          chip.innerHTML=def.label+' <button>×</button>';
+          chip.querySelector('button').addEventListener('click',()=>{
+            if(def.k==='q') q.value='';
+            if(def.k==='fuel') fuel.value='';
+            if(def.k==='year') year.value='';
+            if(def.k==='km') kmmax.value='';
+            if(def.k==='price') price.value='';
+            if(def.k==='gear') gear.value='';
+            apply();
+          });
+          chips.appendChild(chip);
+        });
+
+        resultsCount.textContent = shown+' véhicule'+(shown>1?'s':'')+' trouvé'+(shown>1?'s':'');
+      }
+
+      [q,fuel,year,kmmax,price,gear,sort].forEach(el=>el&&el.addEventListener('input',apply));
+      resetBtn&&resetBtn.addEventListener('click',()=>{ q.value=''; fuel.value=''; year.value=''; kmmax.value=''; price.value=''; gear.value=''; sort.value=''; apply(); });
+      apply();
+    }
+
+    // Lightbox
+    (function(){
+      const lb=document.getElementById('lightbox'),
+            img=document.getElementById('lb-img'),
+            prev=document.getElementById('lb-prev'),
+            next=document.getElementById('lb-next'),
+            closeBtn=document.getElementById('lb-close');
+      let gal=[], idx=0;
+      function open(arr,start){
+        gal=(arr||[]).filter(Boolean);
+        idx=Math.max(0,Math.min(start||0,gal.length-1));
+        if(!gal.length) return;
+        img.src=gal[idx];
+        lb.classList.add('active');
+        document.body.style.overflow='hidden';
+      }
+      function nav(d){ if(!gal.length) return; idx=(idx+d+gal.length)%gal.length; img.src=gal[idx]; }
+      document.addEventListener('click',e=>{
+        const im=e.target.closest('.card img'); if(!im) return;
+        const g=(im.getAttribute('data-gallery')||'');
+        const arr=g?g.split('|'):[im.currentSrc||im.src];
+        const start=Math.max(0,arr.indexOf(im.getAttribute('src')));
+        open(arr,start);
+      });
+      prev.addEventListener('click',()=>nav(-1));
+      next.addEventListener('click',()=>nav(1));
+      function closeLB(){ lb.classList.remove('active'); img.src=''; document.body.style.overflow=''; gal=[]; }
+      closeBtn.addEventListener('click',closeLB);
+      lb.addEventListener('click',e=>{ if(e.target===lb) closeLB(); });
+      document.addEventListener('keydown',e=>{ if(!lb.classList.contains('active')) return; if(e.key==='Escape') closeLB(); if(e.key==='ArrowLeft') nav(-1); if(e.key==='ArrowRight') nav(1); });
+    })();
+
+    // Header: activer l'onglet au scroll/clic
+    (function(){
+      const links = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+      const sections = links
+        .map(a=>({ a, id: a.getAttribute('href').slice(1) }))
+        .map(({a,id})=>({ a, el: document.getElementById(id)}))
+        .filter(x=>x.el);
+
+      links.forEach(l=>{
+        l.addEventListener('click', ()=>{
+          links.forEach(x=>x.classList.remove('active'));
+          l.classList.add('active');
+        });
+      });
+
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          const s = sections.find(x=>x.el===entry.target);
+          if(!s) return;
+          if(entry.isIntersecting){
+            links.forEach(x=>x.classList.remove('active'));
+            s.a.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-40% 0px -50% 0px', threshold: 0.01 });
+
+      sections.forEach(({el})=>io.observe(el));
+    })();
+
+    loadVehicles();
+  </script>
 </body>
 </html>
