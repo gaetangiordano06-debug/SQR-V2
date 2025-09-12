@@ -1,0 +1,194 @@
+[
+  {
+    "title": "Renault Twingo 2 1.5 DCI",
+    "price": 6900,
+    "year": 2013,
+    "km": 123400,
+    "fuel": "Diesel",
+    "gear": "manuelle",
+    "badges": [
+      "heart"
+    ],
+    "img": "Twingo 2.jpg",
+    "gallery": [
+      "Twingo 2.jpg",
+      "twingo 2 (2).jpg"
+    ]
+  },
+  {
+    "title": "Renault Twingo 3",
+    "price": 8390,
+    "year": 2018,
+    "km": 76900,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [
+      "heart"
+    ],
+    "img": "Renault Twingo 3.jpg",
+    "gallery": [
+      "Renault Twingo 3.jpg"
+    ]
+  },
+  {
+    "title": "Toyota Hilux 2.5 D-4D 120ch",
+    "price": 18900,
+    "year": 2010,
+    "km": 202000,
+    "fuel": "Diesel",
+    "gear": "manuelle",
+    "badges": [
+      "rare"
+    ],
+    "img": "Toyota Hilux 2.5 D-4D 120ch.jpg",
+    "gallery": [
+      "Toyota Hilux 2.5 D-4D 120ch.jpg",
+      "Toyota Hilux 2.5 D-4D 120ch (1).jpg",
+      "Toyota Hilux 2.5 D-4D 120ch (2).jpg"
+    ]
+  },
+  {
+    "title": "Fiat Punto 1.2 ELX",
+    "price": 3490,
+    "year": 2000,
+    "km": 151500,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Fiat Punto 1.2 ELX.jpg",
+    "gallery": [
+      "Fiat Punto 1.2 ELX.jpg"
+    ]
+  },
+  {
+    "title": "Peugeot 206 CC Quiksilver 1.6 16v 110ch",
+    "price": 4890,
+    "year": 2006,
+    "km": 155000,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Peugeot 206 CC Quiksilver 1.6 16v 110ch.jpg",
+    "gallery": [
+      "Peugeot 206 CC Quiksilver 1.6 16v 110ch.jpg"
+    ]
+  },
+  {
+    "title": "Hyundai i10 Clim",
+    "price": 4990,
+    "year": 2008,
+    "km": 150000,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Hyundai i10 Clim.jpg",
+    "gallery": [
+      "Hyundai i10 Clim.jpg"
+    ]
+  },
+  {
+    "title": "Audi A4 Cabriolet V6 3.0 S-Line Quattro",
+    "price": 9390,
+    "year": 2007,
+    "km": 255000,
+    "fuel": "Essence",
+    "gear": "auto",
+    "badges": [],
+    "img": "Audi A4 Cabriolet V6 3.0 S-Line Quattro.jpg",
+    "gallery": [
+      "Audi A4 Cabriolet V6 3.0 S-Line Quattro.jpg"
+    ]
+  },
+  {
+    "title": "Mercedes C200 CDI 2.2 16v 122ch",
+    "price": 5990,
+    "year": 2006,
+    "km": 226800,
+    "fuel": "Diesel",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Mercedes C200 CDI 2.2 16v 122ch.jpg",
+    "gallery": [
+      "Mercedes C200 CDI 2.2 16v 122ch.jpg"
+    ]
+  },
+  {
+    "title": "Renault Mégane 1.5 dCi 110ch G-Line",
+    "price": 7990,
+    "year": 2012,
+    "km": 144900,
+    "fuel": "Diesel",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Renault Mégane 1.5 dCi 110ch G-Line.jpg",
+    "gallery": [
+      "Renault Mégane 1.5 dCi 110ch G-Line.jpg"
+    ]
+  },
+  {
+    "title": "Fiat Panda 1.2",
+    "price": 6900,
+    "year": 2014,
+    "km": 64500,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Fiat Panda 1.2.jpg",
+    "gallery": [
+      "Fiat Panda 1.2.jpg"
+    ]
+  },
+  {
+    "title": "Mini Cooper SD",
+    "price": 9990,
+    "year": 2012,
+    "km": 187803,
+    "fuel": "Diesel",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Mini Cooper SD.jpg",
+    "gallery": [
+      "Mini Cooper SD.jpg"
+    ]
+  },
+  {
+    "title": "Citroën DS3 VTi 120 1.6",
+    "price": 6990,
+    "year": 2010,
+    "km": 121000,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Citroën DS3 VTi 120 1.6.jpg",
+    "gallery": [
+      "Citroën DS3 VTi 120 1.6.jpg"
+    ]
+  },
+  {
+    "title": "Volkswagen up! 1.0 60ch",
+    "price": 6490,
+    "year": 2017,
+    "km": 81000,
+    "fuel": "Essence",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "Volkswagen up! 1.0 60ch.jpg",
+    "gallery": [
+      "Volkswagen up! 1.0 60ch.jpg"
+    ]
+  },
+  {
+    "title": "Mercedes Vito CDI 114",
+    "price": 18900,
+    "year": 2017,
+    "km": 96500,
+    "fuel": "Diesel",
+    "gear": "manuelle",
+    "badges": [],
+    "img": "mercedes vito.jpg",
+    "gallery": [
+      "mercedes vito.jpg",
+      "vito.jpg"
+    ]
+  }
+]
